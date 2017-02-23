@@ -1,0 +1,11 @@
+.promo i {
+    margin: 40px 0;
+    color: #ee6e73;
+    font-size: 7rem;
+    display: block;
+}
+
+svg {
+    fill: none;
+    background: rgba(0,0,0,1);
+}
