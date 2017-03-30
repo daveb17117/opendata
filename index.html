@@ -2,13 +2,10 @@
 <html lang="de">
 
 <head>
-    <title>Open Data Beispiel</title>
+    <title>SBB</title>
     <meta name="description" content="Beschreibung der Applikation">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize styles -->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
     <!-- Import custom user defined styles -->
     <link type="text/css" rel="stylesheet" href="css/application.css">
     <!-- Import materialize and required jQuery javascript libraries -->
@@ -18,43 +15,13 @@
     <script type="text/javascript" src="js/d3.js"></script>
     <!-- Import custom user defined javascript -->
     <script type="text/javascript" src="js/application.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <h1>Open Data Beispiel</h1>
-        <p>
-            „Wer Computerprogramme schreiben kann, gestaltet die digitale Welt mit“ – Die Vorlesung Open Data schafft einen Überblick zum Thema Open Data und Open Government und zeigt neben zahlreichen Beispielen die konzeptionellen, gesellschaftlichen, juristischen und technischen Aspekte von Open Data und Open Government Data auf. Durch zahlreiche Gastreferenten bietet die Vorlesung zudem einen sehr hohen Praxisbezug. Um andererseits selber die technischen Fähigkeiten für die Entwicklung von interaktiven Datenvisualisierungen zu erlernen, erhalten die Studierenden eine Einführung in die Webprogrammierung mit HTML, CSS, SVG, JavaScript, JSON und D3.js – Programmier-Vorkenntnisse werden nicht vorausgesetzt. Im Rahmen dieser Übungen realisieren die Studierenden eine eigene Open Data Applikation, die reale Datensätze darstellt und interpretieren lässt.
-        </p>
-        <div class="section">
-            <!-- Grid with rows and columns to improve responsive design -->
-            <div class="row">
-                <!-- A row contains 12 columns, If that amount is exceeded the columns get stacked
-                Meaning of col s12 m4: Use the width of 12 columns on a small screen and the width of 4 on a medium (and larger) screen.
-                The next three columns get stacked on small screens and are side by side on a medium screen. -->
-                <div class="col s12 m4">
-                    <div class="center promo">
-                        <i class="material-icons">local_library</i>
-                        <h5 class="promo-caption">Open Data</h5>
-                        <p class="light center">Die interessante Open Data Thematik wird aus verschiedenen Perspektiven aufgezeigt, wobei sowohl die juristischen Voraussetzungen als auch die technischen Umsetzungsmöglichkeiten für einen möglichst grossen Impact aufgezeigt werden. </p>
-                    </div>
-                </div>
-                <div class="col s12 m4">
-                    <div class="center promo">
-                        <i class="material-icons">flash_on</i>
-                        <h5 class="promo-caption">Effiziente Datenvisualisierungen</h5>
-                        <p class="light center">Der Einsatz von D3.js hilft dabei, die Daten auf effiziente Art und Weise dynamisch und interaktiv zu visualisieren. Da das Framework als Open Source Produkt eine grosse Community aufgestellt hat, gibt es viele <a href="https://d3js.org/">Open Source Beispiele</a>.</p>
-                    </div>
-                </div>
-                <div class="col s12 m4">
-                    <div class="center promo">
-                        <i class="material-icons">group</i>
-                        <h5 class="promo-caption">Veröffentlichung</h5>
-                        <p class="light center">Die fertigen Applikationen landen auf dem <a href="http://opendata.iwi.unibe.ch">Showroom</a> und werden für die breite Öffentlichkeit zugänglich sein. Im Showroom werden die Applikationen in Datum und Kategorien unterteilt, um die gewünschten Visualisierung zu filtern.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <h2>D3 Beispiel</h2>
         <div class="section">
             <div class="row">
