@@ -3,8 +3,10 @@ Hilfreiches Video zur Map https://www.youtube.com/watch?v=G-VggTK-Wlg
  */
 var i = 0;
 $(document).ready(function () {
-    var width = 900;
-    var height = 500;
+
+    // Karte ist 960 x 500 => aspectRation = 1.92
+    var width = window.innerWidth;
+    var height = width / 1.92;
 
     var svg = d3.select("#d3-chart").append("svg")
         .attr("height", height)
@@ -27,7 +29,7 @@ $(document).ready(function () {
     (als referenz siehe github page)
     Der geoTransform skaliert einfach die Map
     */
-    var scale = 0.5;
+    var scale = window.innerWidth / 960;
     var projection = d3.geoTransform({
         point: function (x,y) {
             this.stream.point(scale *x,scale * y);

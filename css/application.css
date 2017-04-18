@@ -1,0 +1,5 @@
+.canton{
+    fill: lightblue; /* Hintergrund der Karte */
+    stroke: #333; /* Kantonslininen */
+    stroke-width: 0.5; /* Grösse der Lininen */
+}
