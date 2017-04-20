@@ -3,14 +3,21 @@ Hilfreiches Video zur Map https://www.youtube.com/watch?v=G-VggTK-Wlg
  */
 var i = 0;
 $(document).ready(function () {
+    // Responsiveness
+    // http://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js
 
-    // Karte ist 960 x 500 => aspectRation = 1.92
-    var width = window.innerWidth;
-    var height = width / 1.92;
+    d3.select("#d3-chart")
+        .append("div")
+        .classed("svg-container", true)
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 960 500")
+        .attr("id", "app")
+        .classed("svg-content-responsive");
 
-    var svg = d3.select("#d3-chart").append("svg")
-        .attr("height", height)
-        .attr("width", width);
+    var svg = d3.select("#app");
+
+    svg.append("circle");
 
     /* ch.json wird in die Schlange eingereit. Sobald es geldaen ist,
     wird die methode reday ausgeführ (schönerr Code)
@@ -23,21 +30,12 @@ $(document).ready(function () {
     /* Laut https://github.com/interactivethings/swiss-maps
     ist die grösse der Map "Scaled and simplified to a size of 960 × 500 pixels"
     vielleicht könne wir das ch.json noch selber generieren, da ich nicht weiss wie
-    alt dass es ist
+    alt das es ist
 
-    Hier habe ich als Projection einen geoTransform eingebaut, weil unsere Daten schon projeziert wurden
-    (als referenz siehe github page)
-    Der geoTransform skaliert einfach die Map
+    GeoTransform wird nicht mehr gebraucht, da nun das resizeing über css läuft
     */
-    var scale = window.innerWidth / 960;
-    var projection = d3.geoTransform({
-        point: function (x,y) {
-            this.stream.point(scale *x,scale * y);
-        }
-    });
-
     var path = d3.geoPath()
-        .projection(projection);
+        .projection(null);
 
     // Wird nach laden des ch.json ausgeführt
     function ready(error, data) {
