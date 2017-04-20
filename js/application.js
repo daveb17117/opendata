@@ -8,9 +8,18 @@ $(document).ready(function () {
     var width = window.innerWidth;
     var height = width / 1.92;
 
-    var svg = d3.select("#d3-chart").append("svg")
-        .attr("height", height)
-        .attr("width", width);
+    d3.select("#d3-chart")
+        .append("div")
+        .classed("svg-container", true)
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 960 500")
+        .attr("id", "app")
+        .classed("svg-content-responsive");
+
+    var svg = d3.select("#app");
+
+    svg.append("circle");
 
     /* ch.json wird in die Schlange eingereit. Sobald es geldaen ist,
     wird die methode reday ausgeführ (schönerr Code)
@@ -29,7 +38,7 @@ $(document).ready(function () {
     (als referenz siehe github page)
     Der geoTransform skaliert einfach die Map
     */
-    var scale = window.innerWidth / 960;
+    var scale = 1;
     var projection = d3.geoTransform({
         point: function (x,y) {
             this.stream.point(scale *x,scale * y);
