@@ -2,6 +2,7 @@
     fill: lightblue; /* Hintergrund der Karte */
     stroke: #333; /* Kantonslininen */
     stroke-width: 0.5; /* Grösse der Lininen */
+    vector-effect: non-scaling-stroke; /* Kantonslinien werden nicht grösser beim Zoom */
 }
 
 .svg-container {

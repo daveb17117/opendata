@@ -29,10 +29,10 @@ $(document).ready(function () {
 
     /* Laut https://github.com/interactivethings/swiss-maps
     ist die grösse der Map "Scaled and simplified to a size of 960 × 500 pixels"
-    vielleicht könne wir das ch.json noch selber generieren, da ich nicht weiss wie
+    vielleicht können wir das ch.json noch selber generieren, da ich nicht weiss wie
     alt das es ist
 
-    GeoTransform wird nicht mehr gebraucht, da nun das resizeing über css läuft
+    GeoTransform wird nicht mehr gebraucht, da nun das resizing über css läuft
     */
     var path = d3.geoPath()
         .projection(null);
