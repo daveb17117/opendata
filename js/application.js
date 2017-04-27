@@ -29,10 +29,10 @@ $(document).ready(function () {
 
     /* Laut https://github.com/interactivethings/swiss-maps
     ist die grösse der Map "Scaled and simplified to a size of 960 × 500 pixels"
-    vielleicht könne wir das ch.json noch selber generieren, da ich nicht weiss wie
+    vielleicht können wir das ch.json noch selber generieren, da ich nicht weiss wie
     alt das es ist
 
-    GeoTransform wird nicht mehr gebraucht, da nun das resizeing über css läuft
+    GeoTransform wird nicht mehr gebraucht, da nun das resizing über css läuft
     */
     var path = d3.geoPath()
         .projection(null);
@@ -51,12 +51,16 @@ $(document).ready(function () {
 
 });
 
+/* Queries the ist-daten-history and calls the handleDate on the resulting JSON-file
+ * @param query – The query to be made on the data set.
+ * @param handleData – (name of) the function to be called
+ * */
 function query(query, handleData) {
     var data = $.param({
         dataset: 'ist-daten-history',
         rows: 10000,
         lang: 'de',
-        q: '',
+        q: query,
         facet: ['betriebstag', 'betreiber_id', 'produkt_id', 'linien_id', 'linien_text', 'verkehrsmittel_text',
             'faellt_aus_tf', 'bpuic', 'ab_prognose_status', 'diff_abfahrt', 'diff_ankunft', 'plan_aufenthalt',
             'ist_aufenthalt', 'ano3', 'ano1', 'ano2', 'ano_total', 'ankunftsverspatung', 'abfahrtsverspatung', 'name']
@@ -67,6 +71,7 @@ function query(query, handleData) {
         jsonp: 'callback',
         dataType: 'jsonp',
         data: data,
+        // response is the resulting JSON file
         success: function (response) {
             handleData(response);
         }
