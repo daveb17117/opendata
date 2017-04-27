@@ -1,5 +1,6 @@
 /*
 Hilfreiches Video zur Map https://www.youtube.com/watch?v=G-VggTK-Wlg
+Idee http://bl.ocks.org/gisminister/10001728
  */
 var i = 0;
 $(document).ready(function () {
