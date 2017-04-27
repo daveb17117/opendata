@@ -10,14 +10,14 @@ $(document).ready(function () {
         .append("div")
         .classed("svg-container", true)
         .append("svg")
-        .attr("preserveAspectRatio", "xMinYMin meet")
+        .call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform);
+        }))
         .attr("viewBox", "0 0 960 500")
         .attr("id", "app")
         .classed("svg-content-responsive");
 
     var svg = d3.select("#app");
-
-    svg.append("circle");
 
     /* ch.json wird in die Schlange eingereit. Sobald es geldaen ist,
     wird die methode reday ausgeführ (schönerr Code)

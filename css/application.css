@@ -1,5 +1,5 @@
 .canton{
-    fill: lightblue; /* Hintergrund der Karte */
+    fill: #b2b8b6; /* Hintergrund der Karte */
     stroke: #333; /* Kantonslininen */
     stroke-width: 0.5; /* Grösse der Lininen */
 }
@@ -8,7 +8,6 @@
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
     vertical-align: top;
     overflow: hidden;
 }
