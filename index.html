@@ -1,46 +1,22 @@
 <!DOCTYPE html>
-<html lang="de">
-
+<html>
 <head>
-    <title>SBB</title>
-    <meta name="description" content="Beschreibung der Applikation">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <!-- Import custom user defined styles -->
-    <link type="text/css" rel="stylesheet" href="css/application.css">
-    <link type="text/css" rel="stylesheet" href="css/application.css">
-    <!-- Import materialize and required jQuery javascript libraries -->
-    <script type="text/javascript" src="js/jquery-3.2.0.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-    <!-- Import d3 library -->
-    <script type="text/javascript" src="js/d3.js"></script>
-    <!-- Import custom user defined javascript -->
-    <script type="text/javascript" src="js/application.js"></script>
-    <script src="https://d3js.org/topojson.v2.min.js"></script>
-    <script src="https://d3js.org/d3-array.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
-    <script src="https://d3js.org/d3-ease.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-selection.v1.min.js"></script>
-    <script src="https://d3js.org/d3-timer.v1.min.js"></script>
-    <script src="https://d3js.org/d3-transition.v1.min.js"></script>
-    <script src="https://d3js.org/d3-drag.v1.min.js"></script>
-    <script src="https://d3js.org/d3-zoom.v1.min.js"></script>
+    <title>ClusterPies</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
+          rel='stylesheet'/>
+    <link rel="stylesheet" href="css/application.css"/>
 </head>
-
 <body>
-    <div class="container">
-        <h2>SBB Verspätungen</h2>
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <div id="d3-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js" charset="utf-8"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<div id="container">
+    <div id="map"></div>
+</div>
+<script src="js/application.js"></script>
+</body>
 </html>
