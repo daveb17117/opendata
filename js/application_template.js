@@ -33,7 +33,6 @@ query('didok-liste', 10, '', [], '', function (data) {
     map.fitBounds(markers.getBounds());
     map.attributionControl.addAttribution(metadata.attribution);
     renderLegend();
-
 });
 
 function defineFeature(feature, latlng) {

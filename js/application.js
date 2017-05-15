@@ -1,20 +1,32 @@
+/*
+Documentation:
+ http://leafletjs.com/examples/geojson/
+ https://github.com/Leaflet/Leaflet.markercluster
+ */
+
 var geojson,
     metadata,
     tileServer = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
     tileAttribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     rmax = 30, //Maximum radius for cluster pies
+    markerclusters = L.markerClusterGroup({
+        maxClusterRadius: 2 * rmax
+    }),
     map = L.map('map').setView([46.6, 8.1], 8);
 
 //Add basemap
 L.tileLayer(tileServer, {attribution: tileAttribution, maxZoom: 15}).addTo(map);
+//and the empty markercluster layer
+map.addLayer(markerclusters);
 
 // Gets all Trainstations
-query('didok-liste', 100, '', [], {tunummer : 1}, function (data) {
+query('didok-liste', 2000, '', [], {tunummer : 1}, function (data) {
     geojson = data.records;
     // Inject Type for L.geojson to work
     geojson.forEach(function (element){element.type = 'Feature'});
-    var markers = L.geoJson(geojson).addTo(map);
-    //map.fitBounds(markers.getBounds());
+    var markers = L.geoJson(geojson);
+    markerclusters.addLayer(markers);
+    map.fitBounds(markers.getBounds());
 });
 
 
@@ -45,7 +57,6 @@ function query(dataset, rows, query, facet, refine, handleData) {
 
     // Builds Querystring
     var data = $.param(dataobject, true);
-    console.log(data);
 
     // Makes request for data
     $.ajax({
