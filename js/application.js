@@ -1,7 +1,7 @@
 var geojson,
     metadata,
-    tileServer = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    tileAttribution = 'Map data: <a href="http://openstreetmap.org">OSM</a>',
+    tileServer = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    tileAttribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     rmax = 30, //Maximum radius for cluster pies
     map = L.map('map').setView([46.6, 8.1], 8);
 
@@ -9,31 +9,45 @@ var geojson,
 L.tileLayer(tileServer, {attribution: tileAttribution, maxZoom: 15}).addTo(map);
 
 // Gets all Trainstations
-query('didok-liste', 500, '', [], '', function (data) {
+query('didok-liste', 100, '', [], {tunummer : 1}, function (data) {
     geojson = data.records;
     // Inject Type for L.geojson to work
     geojson.forEach(function (element){element.type = 'Feature'});
     var markers = L.geoJson(geojson).addTo(map);
-    map.fitBounds(markers.getBounds());
+    //map.fitBounds(markers.getBounds());
 });
 
 
 
-/* Queries the ist-daten-history and calls the handleDate on the resulting JSON-file
+/* Queries the sbb api and calls the handleData on the resulting JSON-file
  * @param query – The query to be made on the data set.
  * @param handleData – (name of) the function to be called
  * */
 function query(dataset, rows, query, facet, refine, handleData) {
-    var data = $.param({
+    // Create Object for querystring creation
+    var dataobject = {
         dataset: dataset,
         rows: rows,
         lang: 'de',
         q: query,
         facet: facet,
-        refine: refine,
         apikey: '7598831a268919cfd9ec4cc8cdfd5293cf312113773e60d5d459f2e1'
-    }, true);
+    };
 
+    // Add refines (needs to be a javascript object)
+    // example: {tunummer: 1}
+    for(var propertyName in refine) {
+        if(refine.hasOwnProperty(propertyName)){
+            dataobject['refine.' + propertyName] = refine[propertyName];
+
+        }
+    }
+
+    // Builds Querystring
+    var data = $.param(dataobject, true);
+    console.log(data);
+
+    // Makes request for data
     $.ajax({
         url: 'https://data.sbb.ch/api/records/1.0/search/?',
         jsonp: 'callback',
