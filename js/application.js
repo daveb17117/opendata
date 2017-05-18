@@ -29,7 +29,18 @@ query('didok-liste', 2000, '', [], {tunummer : 1}, function (data) {
     map.fitBounds(markers.getBounds());
 });
 
-
+/*
+ * Makes the map responsive
+ * */
+var mapmargin = 50;
+$('#map').css("height", ($(window).height() - mapmargin));
+$(window).on("resize", resize);
+resize();
+function resize(){
+    var map = $('#map');
+    map.css("height", ($(window).height() - mapmargin));
+    map.css("margin-top", 50);
+}
 
 /* Queries the sbb api and calls the handleData on the resulting JSON-file
  * @param query – The query to be made on the data set.
