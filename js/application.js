@@ -22,8 +22,12 @@ Documentation:
  * Calculates Data for Trainstations
  */
 function aggregate() {
-    $.getJSON('trainstation.json',function (json) {
+    $.getJSON('ist-daten-history', function (data) {
+        $.getJSON('trainstation.json',function (json) {
+            json.forEach(function (station) {
 
+            });
+        });
     });
 }
 
@@ -78,15 +82,11 @@ L.tileLayer(tileServer, {attribution: tileAttribution, maxZoom: 15}).addTo(map);
 map.addLayer(markerclusters);
 
 // Gets all Trainstations
-query('didok-liste', 2000, '', [], {tunummer : 1}, function (data) {
-    geojson = data.records;
-    // Inject Type for L.geojson to work
-    geojson.forEach(function (element){element.type = 'Feature'});
+$.getJSON('trainstation.json', function (geojson) {
     var markers = L.geoJson(geojson);
     markerclusters.addLayer(markers);
     map.fitBounds(markers.getBounds());
 });
-
 
 function defineClusterIcon(cluster) {
     var children = cluster.getAllChildMarkers(),
