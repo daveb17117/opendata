@@ -6,7 +6,7 @@ if (isset($_POST['json'])) {
     $json = $_POST['json'];
     /* sanity check */
     if (json_decode($json) != null) {
-        $file = fopen('trainstation.json', 'w+');
+        $file = fopen($_SERVER['DOCUMENT_ROOT'].'trainstation.json', 'w+');
         fwrite($file, $json);
         fclose($file);
         echo 'success';
