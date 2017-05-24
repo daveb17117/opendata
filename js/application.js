@@ -82,7 +82,7 @@ L.tileLayer(tileServer, {attribution: tileAttribution, maxZoom: 15}).addTo(map);
 map.addLayer(markerclusters);
 
 // Gets all Trainstations
-$.getJSON('trainstation.json', function (geojson) {
+$.getJSON('tnew.json', function (geojson) {
     var markers = L.geoJson(geojson);
     markerclusters.addLayer(markers);
     map.fitBounds(markers.getBounds());

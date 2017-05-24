@@ -36,7 +36,7 @@ foreach($json as $key => $entry){
         $outpercentage = round(($outcount / $trcount) * 100,2);
 
 
-        $newjson[$key] = [
+        $newjson[] = [
             'type'=>'Feature',
             'name'=>$entry['fields']['name'],
             'geometry'=>$entry['geometry'],
