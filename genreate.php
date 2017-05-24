@@ -23,11 +23,17 @@ foreach($json as $key => $entry){
     if($trcount > 0){
         $versp = -120; // ab wann ist es eine Verspätung
         // Count Qurey for late trains
-        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic ='.$trainstationnumber.
-            ' AND diff_abfahrt < '.$versp;
+        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
+            ' AND diff_ankunft < '.$versp . ' AND faellt_aus_tf IS FALSE';
         $result = pg_query($dbconn,$query);
         $latecount = pg_fetch_row($result)[0];
         $latepercentage = round(($latecount / $trcount) * 100,2);
+
+        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
+            ' AND faellt_aus_tf IS TRUE';
+        $result = pg_query($dbconn,$query);
+        $outcount = pg_fetch_row($result)[0];
+        $outpercentage = round(($outcount / $trcount) * 100,2);
 
 
         $newjson[$key] = [
@@ -35,7 +41,10 @@ foreach($json as $key => $entry){
             'name'=>$entry['fields']['name'],
             'geometry'=>$entry['geometry'],
             'count'=>intval($trcount),
-            'late'=>$latepercentage
+            'latecount'=>intval($latecount),
+            'late'=>$latepercentage,
+            'outcount'=>intval($outcount),
+            'out'=>$outpercentage
         ];
     }
 
@@ -48,23 +57,4 @@ $output = json_encode($newjson,JSON_UNESCAPED_UNICODE);
 file_put_contents( __DIR__.'/tnew.json',$output);
 
 echo 'success';
-
-
-
-
-
-
-/*$dbconn = pg_connect('host=daveb17117.ch dbname=sbb user=sbb password=TdsBb_ApP');
-if(!$dbconn){
-    echo "Verbindung konnte nicht hergestellt werden";
-    exit;
-}
-$result = pg_query($dbconn,'SELECT count(*) FROM "ist-daten"."history"');
-if(!$result){
-    echo "Keine Resultate erhalten";
-    exit;
-}
-while($row = pg_fetch_row($result)){
-    echo $row[0];
-}*/
 ?>
