@@ -16,10 +16,45 @@ map.addLayer(markerclusters);
 
 // Gets all Trainstations
 $.getJSON('tnew.json', function (geojson) {
-    var markers = L.geoJson(geojson);
+    var markers = L.geoJson(geojson, {
+        pointToLayer: defineFeature
+    });
     markerclusters.addLayer(markers);
     map.fitBounds(markers.getBounds());
 });
+
+function defineFeature(feature, latlng) {
+    var strokeWidth = 1, //Set clusterpie stroke width
+        r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
+        iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
+        data = [{key: "total", values: {count: feature.count, cat: 4}},
+            {key: "late", values: {count: feature.latecount, cat: 2}},
+            {key: "out", values: {count: feature.outcount, cat: 1}}],
+        html = bakeThePie({
+            data: data,
+            valueFunc: function (d) {
+                return d.values.count;
+            },
+            strokeWidth: 1,
+            outerRadius: r,
+            innerRadius: r - 10,
+            pieClass: 'cluster-pie',
+            pieLabel: 1,
+            pieLabelClass: 'marker-cluster-pie-label',
+            pathClassFunc: function (d) {
+                return "category-" + d.data.values.cat;
+            },
+            pathTitleFunc: function (d) {
+                return 'Title';
+            }
+        }),
+        myIcon = new L.DivIcon({
+            html: html,
+            className: 'marker-cluster',
+            iconSize: new L.Point(iconDim, iconDim)
+        });
+    return L.marker(latlng, {icon: myIcon});
+}
 
 function defineClusterIcon(cluster) {
     var children = cluster.getAllChildMarkers(),
