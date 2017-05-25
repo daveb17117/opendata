@@ -20,9 +20,10 @@ function closeNav() {
 }
 
 /* Title Transition */
+$('#title').css('opacity','1');
 $('#closetitle').on('click',function () {
-    $('#titlediv').css('font-size', '0.1em');
+    $('#title').css('opacity','0');
     setTimeout(function () {
-        $('#title').hide();
-    }, 300);
+      $('#title').hide().css('z-index','-1');
+    },1000);
 });
