@@ -225,7 +225,7 @@ body {
     font-family: Sans sans-serif;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 20px;
     color: white;
     font-size: 2em
 }
@@ -237,7 +237,6 @@ body {
     -ms-transition: all 0.3s ease;
     position: relative;
     left: -50%;
-    top: -50%;
     padding: 1em;
     background: rgba(0, 0, 0, 0.66);
     border-radius: 0.5em;
