@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title>ClusterPies</title>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
-    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
-          rel='stylesheet'/>
-    <link rel="stylesheet" href="css/application.css"/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet'/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/application.css"/>
 </head>
 <body>
 <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js" charset="utf-8"></script>
@@ -15,12 +15,21 @@
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+
 <div class="container-fluid" id="mainContainer">
-
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+    </div>
+    <button id="opennav" class="btn btn-primary" onclick="openNav()"><span class="fa fa-filter"></span> Filter</button>
     <div id="map"></div>
-
 </div>
 
+<script src="js/style.js"></script>
+<script src="js/api.js"></script>
 <script src="js/application.js"></script>
 </body>
 </html>
