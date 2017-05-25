@@ -18,3 +18,11 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
+
+/* Title Transition */
+$('#closetitle').on('click',function () {
+    $('#titlediv').css('font-size', '0.1em');
+    setTimeout(function () {
+        $('#title').hide();
+    }, 300);
+});

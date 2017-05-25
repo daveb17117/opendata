@@ -1,10 +1,10 @@
-body{
+body {
     margin: 0;
 }
 
 #map {
     width: 100%;
-    height:100%;
+    height: 100%;
 }
 
 #mainContainer {
@@ -22,8 +22,9 @@ body{
     font-size: 1em;
     font-family: sans-serif;
     width: 165px;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255, 255, 255, 0.6);
 }
+
 .legendheading {
     position: relative;
     height: 25px;
@@ -31,15 +32,17 @@ body{
     font-size: larger;
     font-weight: bold;
 }
+
 .legenditem {
     padding: 2px;
     margin-bottom: 2px;
 }
 
 /*Marker clusters*/
-.marker-cluster-pie g.arc{
+.marker-cluster-pie g.arc {
     fill-opacity: 0.5;
 }
+
 .marker-cluster-pie-label {
     font-size: 14px;
     font-weight: bold;
@@ -51,7 +54,7 @@ body{
     width: 18px;
     height: 18px;
     border-width: 2px;
-    border-radius:10px;
+    border-radius: 10px;
     margin-top: -10px;
     margin-left: -10px;
     border-style: solid;
@@ -60,7 +63,8 @@ body{
     background: #CCC;
     border-color: #444;
 }
-.marker div{
+
+.marker div {
     text-align: center;
     font-size: 14px;
     font-weight: bold;
@@ -68,37 +72,42 @@ body{
 }
 
 /*marker categories*/
-.category-1{
+.category-1 {
     fill: #F88;
     stroke: #800;
     background: #F88;
     border-color: #800;
 }
-.category-2{
+
+.category-2 {
     fill: #FA0;
     stroke: #B60;
     background: #FA0;
     border-color: #B60;
 }
-.category-3{
+
+.category-3 {
     fill: #FF3;
     stroke: #D80;
     background: #FF3;
     border-color: #D80;
 }
-.category-4{
+
+.category-4 {
     fill: #BFB;
     stroke: #070;
     background: #BFB;
     border-color: #070;
 }
-.category-5{
+
+.category-5 {
     fill: #9DF;
     stroke: #007;
     background: #9DF;
     border-color: #007;
 }
-.category-6{
+
+.category-6 {
     fill: #CCC;
     stroke: #444;
     background: #CCC;
@@ -106,22 +115,25 @@ body{
 }
 
 /*marker icons*/
-.icon-1{
+.icon-1 {
     background-image: url('running-16.png');
     background-repeat: no-repeat;
     background-position: 0px 1px;
 }
-.icon-2{
+
+.icon-2 {
     background-image: url('bicycle-16.png');
     background-repeat: no-repeat;
     background-position: 1px 0px;
 }
-.icon-3{
+
+.icon-3 {
     background-image: url('motorcycle-16.png');
     background-repeat: no-repeat;
     background-position: 1px 0px;
 }
-.icon-4{
+
+.icon-4 {
     background-image: url('car-16.png');
     background-repeat: no-repeat;
     background-position: 1px 0px;
@@ -133,9 +145,11 @@ body{
     font-size: 1.2em;
     font-weight: bold;
 }
+
 .map-popup span.attribute {
     display: block;
 }
+
 .map-popup span.label {
     font-weight: bold;
 }
@@ -146,7 +160,7 @@ body{
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    z-index: 2; /* Stay on top */
+    z-index: 2000; /* Stay on top */
     top: 0;
     right: 0;
     background-color: #111; /* Black*/
@@ -166,7 +180,7 @@ body{
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover, .offcanvas a:focus{
+.sidenav a:hover, .offcanvas a:focus {
     color: #f1f1f1;
 }
 
@@ -185,7 +199,7 @@ body{
     padding: 20px;
 }
 
-#opennav{
+#opennav {
     z-index: 1;
     position: absolute;
     top: 1em;
@@ -196,6 +210,43 @@ body{
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+/* Title */
+#title {
+    z-index: 2000;
+    font-family: Sans sans-serif;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: white;
+    font-size: 2em
+}
+
+#titlediv {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    position: relative;
+    left: -50%;
+    top: -50%;
+    padding: 1em;
+    background: rgba(0, 0, 0, 0.66);
+    border-radius: 0.5em;
+}
+
+#closetitle {
+    position: absolute;
+    top: 0.1em;
+    right: 0.5em;
+    cursor: pointer;
+    font-size: 2em
 }
