@@ -5,64 +5,9 @@ var mapmargin = 50;
 $('#map').css("height", ($(window).height()));
 $(window).on("resize", resize);
 resize();
-function resize(){
+function resize() {
     var map = $('#map');
     map.css("height", ($(window).height()));
-}
-
-
-/*
-Documentation:
- http://leafletjs.com/examples/geojson/
- https://github.com/Leaflet/Leaflet.markercluster
- */
-
-
-/**
- * Calculates Data for Trainstations
- */
-function aggregate() {
-    $.getJSON('ist-daten-history', function (data) {
-        $.getJSON('trainstation.json',function (json) {
-            json.forEach(function (station) {
-
-            });
-        });
-    });
-}
-
-/**
- * Creates a trainstation.json file (not working in PHPStorm)
- */
-function fetch() {
-    // Fetch Data if not already fetched. This should happen one time daily
-// Trainstations
-    query('didok-liste', 2000, '', [], {tunummer: 1}, function (data) {
-        geojson = data.records;
-        // Inject Type for L.geojson to work
-        geojson.forEach(
-            function (element) {
-                element.type = 'Feature';
-            });
-        $.post("json.php", {json: JSON.stringify(geojson)}).done(function (data) {
-           console.log(data);
-        });
-/*        $.ajax({
-            type: "POST",
-            url: "json.php",
-            data: {
-                json: JSON.stringify(geojson)
-            },
-            success: function (response) {
-                alert(response);
-            }
-        });*/
-    });
-
-// Ist-Daten (Vortag)
-
-
-// Ist-Daten history
 }
 
 var geojson,
@@ -94,30 +39,36 @@ function defineClusterIcon(cluster) {
         strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        /*        data = d3.nest() //Build a dataset for the pie chart
-         .key(function (d) {
-         return d.feature.properties[categoryField];
-         })
-         .entries(children, d3.map),*/
         //bake some svg markup
-        html = '2', /* bakeThePie({
-         data: data,
-         valueFunc: function (d) {
-         return d.values.length;
-         },
-         strokeWidth: 1,
-         outerRadius: r,
-         innerRadius: r - 10,
-         pieClass: 'cluster-pie',
-         pieLabel: n,
-         pieLabelClass: 'marker-cluster-pie-label',
-         pathClassFunc: function (d) {
-         return "category-" + d.data.key;
-         },
-         pathTitleFunc: function (d) {
-         return metadata.fields[categoryField].lookup[d.data.key] + ' (' + d.data.values.length + ' accident' + (d.data.values.length != 1 ? 's' : '') + ')';
-         }
-         }),*/
+        total = 0,
+        late = 0,
+        out = 0;
+    children.forEach(function (child) {
+        total += child.feature.count;
+        late += child.feature.latecount;
+        out += child.feature.outcount;
+    });
+    var data = [{key: "total", values: {count: total, cat: 4}},
+        {key: "late", values: {count: late, cat: 2}},
+        {key: "out", values: {count: out, cat: 1}}];
+    var html = bakeThePie({
+            data: data,
+            valueFunc: function (d) {
+                return d.values.count;
+            },
+            strokeWidth: 1,
+            outerRadius: r,
+            innerRadius: r - 10,
+            pieClass: 'cluster-pie',
+            pieLabel: n,
+            pieLabelClass: 'marker-cluster-pie-label',
+            pathClassFunc: function (d) {
+                return "category-" + d.data.values.cat;
+            },
+            pathTitleFunc: function (d) {
+
+            }
+        }),
         //Create a new divIcon and assign the svg markup to the html property
         myIcon = new L.DivIcon({
             html: html,
@@ -125,6 +76,78 @@ function defineClusterIcon(cluster) {
             iconSize: new L.Point(iconDim, iconDim)
         });
     return myIcon;
+}
+
+/*function that generates a svg markup for the pie chart*/
+function bakeThePie(options) {
+    /*data and valueFunc are required*/
+    if (!options.data || !options.valueFunc) {
+        return '';
+    }
+    var data = options.data,
+        valueFunc = options.valueFunc,
+        r = options.outerRadius ? options.outerRadius : 28, //Default outer radius = 28px
+        rInner = options.innerRadius ? options.innerRadius : r - 10, //Default inner radius = r-10
+        strokeWidth = options.strokeWidth ? options.strokeWidth : 1, //Default stroke is 1
+        pathClassFunc = options.pathClassFunc ? options.pathClassFunc : function () {
+            return '';
+        }, //Class for each path
+        pathTitleFunc = options.pathTitleFunc ? options.pathTitleFunc : function () {
+            return '';
+        }, //Title for each path
+        pieClass = options.pieClass ? options.pieClass : 'marker-cluster-pie', //Class for the whole pie
+        pieLabel = options.pieLabel ? options.pieLabel : d3.sum(data, valueFunc), //Label for the whole pie
+        pieLabelClass = options.pieLabelClass ? options.pieLabelClass : 'marker-cluster-pie-label',//Class for the pie label
+
+        origo = (r + strokeWidth), //Center coordinate
+        w = origo * 2, //width and height of the svg element
+        h = w,
+        donut = d3.layout.pie(),
+        arc = d3.svg.arc().innerRadius(rInner).outerRadius(r);
+
+    //Create an svg element
+    var svg = document.createElementNS(d3.ns.prefix.svg, 'svg');
+    //Create the pie chart
+    var vis = d3.select(svg)
+        .data([data])
+        .attr('class', pieClass)
+        .attr('width', w)
+        .attr('height', h);
+
+    var arcs = vis.selectAll('g.arc')
+        .data(donut.value(valueFunc))
+        .enter().append('svg:g')
+        .attr('class', 'arc')
+        .attr('transform', 'translate(' + origo + ',' + origo + ')');
+
+    arcs.append('svg:path')
+        .attr('class', pathClassFunc)
+        .attr('stroke-width', strokeWidth)
+        .attr('d', arc)
+        .append('svg:title')
+        .text(pathTitleFunc);
+
+    vis.append('text')
+        .attr('x', origo)
+        .attr('y', origo)
+        .attr('class', pieLabelClass)
+        .attr('text-anchor', 'middle')
+        //.attr('dominant-baseline', 'central')
+        /*IE doesn't seem to support dominant-baseline, but setting dy to .3em does the trick*/
+        .attr('dy', '.3em')
+        .text(pieLabel);
+    //Return the svg-markup rather than the actual element
+    return serializeXmlNode(svg);
+}
+
+/*Helper function*/
+function serializeXmlNode(xmlNode) {
+    if (typeof window.XMLSerializer != "undefined") {
+        return (new window.XMLSerializer()).serializeToString(xmlNode);
+    } else if (typeof xmlNode.xml != "undefined") {
+        return xmlNode.xml;
+    }
+    return "";
 }
 
 
@@ -145,8 +168,8 @@ function query(dataset, rows, query, facet, refine, handleData) {
 
     // Add refines (needs to be a javascript object)
     // example: {tunummer: 1}
-    for(var propertyName in refine) {
-        if(refine.hasOwnProperty(propertyName)){
+    for (var propertyName in refine) {
+        if (refine.hasOwnProperty(propertyName)) {
             dataobject['refine.' + propertyName] = refine[propertyName];
 
         }
@@ -166,4 +189,38 @@ function query(dataset, rows, query, facet, refine, handleData) {
             handleData(response);
         }
     });
+}
+
+/**
+ * Creates a trainstation.json file (not working in PHPStorm)
+ */
+function fetch() {
+    // Fetch Data if not already fetched. This should happen one time daily
+// Trainstations
+    query('didok-liste', 2000, '', [], {tunummer: 1}, function (data) {
+        geojson = data.records;
+        // Inject Type for L.geojson to work
+        geojson.forEach(
+            function (element) {
+                element.type = 'Feature';
+            });
+        $.post("json.php", {json: JSON.stringify(geojson)}).done(function (data) {
+            console.log(data);
+        });
+        /*        $.ajax({
+         type: "POST",
+         url: "json.php",
+         data: {
+         json: JSON.stringify(geojson)
+         },
+         success: function (response) {
+         alert(response);
+         }
+         });*/
+    });
+
+// Ist-Daten (Vortag)
+
+
+// Ist-Daten history
 }
