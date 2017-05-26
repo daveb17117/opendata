@@ -1,0 +1,5 @@
+{
+    "require": {
+        "maxakawizard/json-collection-parser": "^1.1"
+    }
+}

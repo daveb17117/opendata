@@ -56,7 +56,7 @@ while($row = pg_fetch_row($result_ts)){
 }
 
 $output = json_encode($newjson,JSON_UNESCAPED_UNICODE);
-file_put_contents( __DIR__.'/trial.json',$output);
+file_put_contents( __DIR__.'/tnew.json',$output);
 
 echo 'success';
 ?>
