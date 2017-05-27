@@ -27,9 +27,9 @@ function defineFeature(feature, latlng) {
     var strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        data = [{key: "rest", values: {count: feature.count - feature.latecount - feature.outcount, cat: 4}},
-            {key: "late", values: {count: feature.latecount, cat: 2}},
-            {key: "out", values: {count: feature.outcount, cat: 1}}],
+        data = [{key: "rest", values: {count: feature.count - feature.latecount - feature.outcount, cat: 4, percentage: "" + (100 * ((feature.count - feature.latecount - feature.outcount)/feature.count)).toFixed(2) + "%"}},
+            {key: "late", values: {count: feature.latecount, cat: 2, percentage: "" + (100 * (feature.latecount/feature.count)).toFixed(2) + "%"}},
+            {key: "out", values: {count: feature.outcount, cat: 1, percentage: "" + (100 * (feature.outcount/feature.count)).toFixed(2) + "%"}}],
         html = bakeThePie({
             data: data,
             valueFunc: function (d) {
@@ -46,9 +46,9 @@ function defineFeature(feature, latlng) {
             },
             pathTitleFunc: function (d) {
                 switch(d.data.key){
-                    case 'rest': return 'Normal: '+ d.data.values.count;
-                    case 'late': return 'Verspätet: '+ d.data.values.count;
-                    case 'out': return 'Ausgefallen: ' + d.data.values.count;
+                    case 'rest': return 'Normal: '+ d.data.values.percentage + ' / ' + d.data.values.count;
+                    case 'late': return 'Verspätet: '+ d.data.values.percentage + ' / ' + d.data.values.count;
+                    case 'out': return 'Ausgefallen: ' + d.data.values.percentage + ' / ' + d.data.values.count;
                 }
             }
         }),
@@ -75,9 +75,9 @@ function defineClusterIcon(cluster) {
         late += child.feature.latecount;
         out += child.feature.outcount;
     });
-    var data = [{key: "rest", values: {count: total - late - out, cat: 4}},
-        {key: "late", values: {count: late, cat: 2}},
-        {key: "out", values: {count: out, cat: 1}}];
+    var data = [{key: "rest", values: {count: total - late - out, cat: 4, percentage: "" + (100 * ((total - late - out)/total)).toFixed(2) + "%"}},
+        {key: "late", values: {count: late, cat: 2, percentage: "" + (100 * (late/total)).toFixed(2) + "%"}},
+        {key: "out", values: {count: out, cat: 1, percentage: "" + (100 * (out/total)).toFixed(2) + "%"}}];
     var html = bakeThePie({
             data: data,
             valueFunc: function (d) {
@@ -94,9 +94,9 @@ function defineClusterIcon(cluster) {
             },
             pathTitleFunc: function (d) {
                 switch(d.data.key){
-                    case 'rest': return 'Normal: '+ d.data.values.count;
-                    case 'late': return 'Verspätet: '+ d.data.values.count;
-                    case 'out': return 'Ausgefallen: ' + d.data.values.count;
+                    case 'rest': return 'Normal: '+ d.data.values.percentage + ' / ' + d.data.values.count;
+                    case 'late': return 'Verspätet: '+ d.data.values.percentage + ' / ' + d.data.values.count;
+                    case 'out': return 'Ausgefallen: ' + d.data.values.percentage + ' / ' + d.data.values.count;
                 }
             }
         }),
