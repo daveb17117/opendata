@@ -37,7 +37,7 @@ function defineFeature(feature, latlng) {
             },
             strokeWidth: 1,
             outerRadius: r,
-            innerRadius: r - 10,
+            innerRadius: r - 8,
             pieClass: 'cluster-pie',
             pieLabel: '1',
             pieLabelClass: 'marker-cluster-pie-label',
@@ -64,7 +64,7 @@ function defineClusterIcon(cluster) {
     var children = cluster.getAllChildMarkers(),
         n = children.length, //Get number of markers in cluster
         strokeWidth = 1, //Set clusterpie stroke width
-        r = rmax - 2 * strokeWidth - (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0), //Calculate clusterpie radius...
+        r = rmax - 2 * strokeWidth - (n < 10 ? 10 : n < 100 ? 8 : n < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
         //bake some svg markup
         total = 0,
