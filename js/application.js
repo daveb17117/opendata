@@ -24,11 +24,20 @@ $.getJSON('tnew.json', function (geojson) {
 });
 
 function defineFeature(feature, latlng) {
+    var maxMin = 2;
+    if (document.getElementById('radio1min').checked)
+        maxMin = 1;
+    else if (document.getElementById('radio2min').checked)
+        maxMin = 2;
+    else if (document.getElementById('radio3min').checked)
+        maxMin = 3;
+    else if (document.getElementById('radio4min').checked)
+        maxMin = 4;
     var strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        data = [{key: "rest", values: {count: feature.count - feature.latecount2 - feature.outcount, cat: 4, percentage: 100 - feature.late2 - feature.out}},
-            {key: "late", values: {count: feature.latecount2, cat: 2, percentage: feature.late2}},
+        data = [{key: "rest", values: {count: feature.count - feature["latecount" + maxMin] - feature.outcount, cat: 4, percentage: 100 - feature["late" + maxMin] - feature.out}},
+            {key: "late", values: {count: feature.latecount2, cat: 2, percentage: feature["late" + maxMin]}},
             {key: "out", values: {count: feature.outcount, cat: 1, percentage: feature.out}}],
         html = bakeThePie({
             data: data,
@@ -61,6 +70,15 @@ function defineFeature(feature, latlng) {
 }
 
 function defineClusterIcon(cluster) {
+    var maxMin = 2;
+    if (document.getElementById('radio1min').checked)
+        maxMin = 1;
+    else if (document.getElementById('radio2min').checked)
+        maxMin = 2;
+    else if (document.getElementById('radio3min').checked)
+        maxMin = 3;
+    else if (document.getElementById('radio4min').checked)
+        maxMin = 4;
     var children = cluster.getAllChildMarkers(),
         n = children.length, //Get number of markers in cluster
         strokeWidth = 1, //Set clusterpie stroke width
@@ -72,7 +90,7 @@ function defineClusterIcon(cluster) {
         out = 0;
     children.forEach(function (child) {
         total += child.feature.count;
-        late += child.feature.latecount2;
+        late += child.feature["latecount" + maxMin];
         out += child.feature.outcount;
     });
     var data = [{key: "rest", values: {count: total - late - out, cat: 4, percentage: "" + (100 * ((total - late - out)/total)).toFixed(2) + "%"}},
@@ -169,6 +187,12 @@ function bakeThePie(options) {
         .text(pieLabel);
     //Return the svg-markup rather than the actual element
     return serializeXmlNode(svg);
+}
+
+function redraw() {
+    // TODO: This method gets called correctly when you click on a radio button but it does not redraw the page! Let the page be redrawn.
+    defineFeature();
+    defineClusterIcon();
 }
 
 /*Helper function*/
