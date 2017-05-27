@@ -168,6 +168,17 @@ body {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
+.sidenavTextarea {
+    padding: 8px 8px 8px 32px;
+    color: #c8c8c8;
+    font-size: 1.2em;
+}
+
+#sidenavTitle {
+    font-size: 1.8em;
+    padding-bottom: 1em;
+}
+
 /* The navigation menu links */
 .sidenav a {
     padding: 8px 8px 8px 32px;

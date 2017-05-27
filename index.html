@@ -18,11 +18,34 @@
 
 <div class="container-fluid" id="mainContainer">
     <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <div class="sidenavTextarea">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <form>
+                <div id="sidenavTitle">
+                    Filter
+                </div>
+                Ab wie vielen Minuten gilt ein Zug als verspätet?
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1 min
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2 min
+                    </label>
+                    <br>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3 min
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 4 min
+                    </label>
+                </div>
+            </form>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+        </div>
     </div>
     <button id="opennav" class="btn btn-default" style="z-index: 3;" onclick="openNav()"><span class="fa fa-filter"></span> Filter</button>
     <div id="title">
