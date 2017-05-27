@@ -27,8 +27,8 @@ function defineFeature(feature, latlng) {
     var strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        data = [{key: "rest", values: {count: feature.count - feature.latecount - feature.outcount, cat: 4, percentage: 100 - feature.late - feature.out}},
-            {key: "late", values: {count: feature.latecount, cat: 2, percentage: feature.late}},
+        data = [{key: "rest", values: {count: feature.count - feature.latecount2 - feature.outcount, cat: 4, percentage: 100 - feature.late2 - feature.out}},
+            {key: "late", values: {count: feature.latecount2, cat: 2, percentage: feature.late2}},
             {key: "out", values: {count: feature.outcount, cat: 1, percentage: feature.out}}],
         html = bakeThePie({
             data: data,
@@ -72,7 +72,7 @@ function defineClusterIcon(cluster) {
         out = 0;
     children.forEach(function (child) {
         total += child.feature.count;
-        late += child.feature.latecount;
+        late += child.feature.latecount2;
         out += child.feature.outcount;
     });
     var data = [{key: "rest", values: {count: total - late - out, cat: 4, percentage: "" + (100 * ((total - late - out)/total)).toFixed(2) + "%"}},
