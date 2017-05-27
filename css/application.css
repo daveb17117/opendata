@@ -13,15 +13,14 @@ body {
 
 #legend {
     position: absolute;
-    top: 3px;
-    left: 780px;
+    top: 5em;
+    right: 1em; /* Same as #opennav, looks nicer */
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
     z-index: 100;
-    font-size: 1em;
+    font-size: 1.2em; /* A bit smaller than nav-text and title-text */
     font-family: sans-serif;
-    width: 165px;
     background: rgba(255, 255, 255, 0.6);
 }
 
