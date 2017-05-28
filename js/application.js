@@ -36,7 +36,7 @@ function defineFeature(feature, latlng) {
     var strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        data = [{key: "rest", values: {count: feature.count - feature["latecount" + maxMin] - feature.outcount, cat: 4, percentage: 100 - feature["late" + maxMin] - feature.out}},
+        data = [{key: "rest", values: {count: feature["count"] - feature["latecount" + maxMin] - feature.outcount, cat: 4, percentage: 100 - feature["late" + maxMin] - feature.out}},
             {key: "late", values: {count: feature.latecount2, cat: 2, percentage: feature["late" + maxMin]}},
             {key: "out", values: {count: feature.outcount, cat: 1, percentage: feature.out}}],
         html = bakeThePie({
@@ -191,8 +191,9 @@ function bakeThePie(options) {
 
 function redraw() {
     // TODO: This method gets called correctly when you click on a radio button but it does not redraw the page! Let the page be redrawn.
-    defineFeature();
-    defineClusterIcon();
+    L.markerClusterGroup().refreshClusters();
+    //defineFeature();
+    //defineClusterIcon();
 }
 
 /*Helper function*/
