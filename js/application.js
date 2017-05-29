@@ -1,5 +1,4 @@
 var geojson,
-    metadata,
     tileServer = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
     tileAttribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     copyLeft = ' | <span class="copyleft">&copy;</span> <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v3.0</a> license',
@@ -18,9 +17,9 @@ L.tileLayer(tileServer, {attribution: tileAttribution + copyLeft, maxZoom: 15}).
 map.addLayer(markerclusters);
 
 // Gets all Trainstations
-$.getJSON('tnew.json', function (geojson) {
+$.getJSON('data/data.json', function (geojson) {
     json = geojson;
-    var markers = L.geoJson(geojson, {
+    markers = L.geoJson(geojson, {
         pointToLayer: defineFeature,
         onEachFeature: defineFeaturePopup
     });
@@ -41,9 +40,9 @@ function defineFeature(feature, latlng) {
     var strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        data = [{key: "rest", values: {count: feature["count"] - feature["latecount" + maxMin] - feature.outcount, cat: 4, percentage: (100 - feature["late" + maxMin] - feature.out).toFixed(2)}},
-            {key: "late", values: {count: feature["latecount" + maxMin], cat: 2, percentage: (feature["late" + maxMin]).toFixed(2)}},
-            {key: "out", values: {count: feature.outcount, cat: 1, percentage: (feature.out).toFixed(2)}}],
+        data = [{key: "rest", values: {count: feature["count"]['all'] - feature["latecount" + maxMin]['all'] - feature.outcount.all, cat: 4, percentage: (100 - feature["late" + maxMin] - feature.out).toFixed(2)}},
+            {key: "late", values: {count: feature["latecount" + maxMin]['all'], cat: 2, percentage: (feature["late" + maxMin]['all']).toFixed(2)}},
+            {key: "out", values: {count: feature.outcount.all, cat: 1, percentage: (feature.out.all).toFixed(2)}}],
         html = bakeThePie({
             data: data,
             valueFunc: function (d) {
@@ -94,9 +93,9 @@ function defineClusterIcon(cluster) {
         late = 0,
         out = 0;
     children.forEach(function (child) {
-        total += child.feature.count;
-        late += child.feature["latecount" + maxMin];
-        out += child.feature.outcount;
+        total += child.feature.count.all;
+        late += child.feature["latecount" + maxMin]['all'];
+        out += child.feature.outcount.all;
     });
     var data = [{key: "rest", values: {count: total - late - out, cat: 4, percentage: "" + (100 * ((total - late - out)/total)).toFixed(2) + "%"}},
         {key: "late", values: {count: late, cat: 2, percentage: "" + (100 * (late/total)).toFixed(2) + "%"}},
@@ -208,9 +207,9 @@ function defineFeaturePopup(feature, layer) {
         maxMin = 4;
 
     popupContent += '<span class="heading">' + feature["name"] + '</span>';
-    popupContent += '<span class="attribute"><b>Pünktlich:  </b>'+ (100 - feature["late" + maxMin] - feature["out"]).toFixed(2) +'% / ' + (feature["count"] - feature["latecount" + maxMin] - feature["outcount"]) + '</span>';
-    popupContent += '<span class="attribute"><b>Verspätet:  </b>'+ feature["late" + maxMin].toFixed(2) +'% / ' + feature["latecount" + maxMin] + '</span>';
-    popupContent += '<span class="attribute"><b>Ausgefallen:  </b>'+ feature["out"].toFixed(2) +'% / ' + feature["outcount"] + '</span>';
+    popupContent += '<span class="attribute"><b>Pünktlich:  </b>'+ (100 - feature["late" + maxMin]['all'] - feature["out"]['all']).toFixed(2) +'% / ' + (feature["count"]['all'] - feature["latecount" + maxMin]['all'] - feature["outcount"]['all']) + '</span>';
+    popupContent += '<span class="attribute"><b>Verspätet:  </b>'+ feature["late" + maxMin]['all'].toFixed(2) +'% / ' + feature["latecount" + maxMin]['all'] + '</span>';
+    popupContent += '<span class="attribute"><b>Ausgefallen:  </b>'+ feature["out"]['all'].toFixed(2) +'% / ' + feature["outcount"]['all'] + '</span>';
 
     popupContent = '<div class="map-popup">' + popupContent + '</div>';
     layer.bindPopup(popupContent, {offset: L.point(0, 0)});
@@ -219,7 +218,8 @@ function defineFeaturePopup(feature, layer) {
 function redraw() {
     markerclusters.removeLayer(markers);
     markers = L.geoJson(json, {
-        pointToLayer: defineFeature
+        pointToLayer: defineFeature,
+        onEachFeature: defineFeaturePopup
     });
     markerclusters.addLayer(markers);
     //defineFeature();
@@ -235,3 +235,23 @@ function serializeXmlNode(xmlNode) {
     }
     return "";
 }
+
+$search.change(function() {
+    var current = $search.typeahead("getActive");
+    if (current) {
+        // Some item from your model is active!
+        if (current.name == $search.val()) {
+            // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
+            markers.eachLayer(function (layer) {
+                if(current.name == layer.feature.name){
+                    map.setView(layer._latlng,20);
+                }
+            });
+        } else {
+            // This means it is only a partial match, you can either add a new item
+            // or take the active if you don't want new items
+        }
+    } else {
+        // Nothing is active so it is a new value (or maybe empty value)
+    }
+});
