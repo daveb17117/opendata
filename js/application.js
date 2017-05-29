@@ -2,7 +2,7 @@ var geojson,
     metadata,
     tileServer = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
     tileAttribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    copyLeft = ' | <span id="copyleft">&copy;</span> <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v3.0</a> license',
+    copyLeft = ' | <span class="copyleft">&copy;</span> <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v3.0</a> license',
     rmax = 30, //Maximum radius for cluster pies
     markerclusters = L.markerClusterGroup({
         maxClusterRadius: 2 * rmax,
