@@ -7,7 +7,9 @@ var geojson,
         maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon //this is where the magic happens
     }),
-    map = L.map('map').setView([46.6, 8.1], 8);
+    map = L.map('map').setView([46.6, 8.1], 8),
+    markers,
+    json;
 
 //Add basemap
 L.tileLayer(tileServer, {attribution: tileAttribution, maxZoom: 15}).addTo(map);
@@ -16,7 +18,8 @@ map.addLayer(markerclusters);
 
 // Gets all Trainstations
 $.getJSON('tnew.json', function (geojson) {
-    var markers = L.geoJson(geojson, {
+    json = geojson;
+    markers = L.geoJson(geojson, {
         pointToLayer: defineFeature
     });
     markerclusters.addLayer(markers);
@@ -190,7 +193,11 @@ function bakeThePie(options) {
 }
 
 function redraw() {
-    markerclusters.refreshClusters();
+    markerclusters.removeLayer(markers);
+    markers = L.geoJson(json, {
+        pointToLayer: defineFeature
+    });
+    markerclusters.addLayer(markers);
     //defineFeature();
     //defineClusterIcon();
 }
