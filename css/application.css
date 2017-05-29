@@ -261,3 +261,8 @@ body {
     cursor: pointer;
     font-size: 2em
 }
+
+#copyleft {
+    display:inline-block;
+    transform: rotate(180deg);
+}
