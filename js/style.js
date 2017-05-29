@@ -30,8 +30,7 @@ $search.change(function() {
             // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
             markers.eachLayer(function (layer) {
                if(current.name == layer.feature.name){
-                   console.log(layer);
-                   map.setView(layer._latlng,20)
+                   map.setView(layer._latlng,20);
                }
             });
         } else {
