@@ -39,9 +39,9 @@ function defineFeature(feature, latlng) {
     var strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (1 < 10 ? 12 : 1 < 100 ? 8 : 1 < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
-        data = [{key: "rest", values: {count: feature["count"] - feature["latecount" + maxMin] - feature.outcount, cat: 4, percentage: 100 - feature["late" + maxMin] - feature.out}},
-            {key: "late", values: {count: feature.latecount2, cat: 2, percentage: feature["late" + maxMin]}},
-            {key: "out", values: {count: feature.outcount, cat: 1, percentage: feature.out}}],
+        data = [{key: "rest", values: {count: feature["count"] - feature["latecount" + maxMin] - feature.outcount, cat: 4, percentage: (100 - feature["late" + maxMin] - feature.out).toFixed(2)}},
+            {key: "late", values: {count: feature["latecount" + maxMin], cat: 2, percentage: (feature["late" + maxMin]).toFixed(2)}},
+            {key: "out", values: {count: feature.outcount, cat: 1, percentage: (feature.out).toFixed(2)}}],
         html = bakeThePie({
             data: data,
             valueFunc: function (d) {

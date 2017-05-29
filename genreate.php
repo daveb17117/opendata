@@ -21,42 +21,17 @@ while($row = pg_fetch_row($result_ts)){
     $trcount = pg_fetch_row($result)[0];
 
     if($trcount > 0){
-
-        // 1 min
-        $versp = -60; // ab wann ist es eine Verspätung
-        // Count Qurey for late trains
-        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
-                        ' AND diff_ankunft < '.$versp . ' AND faellt_aus_tf IS FALSE';
-        $result = pg_query($dbconn,$query);
-        $latecount1 = pg_fetch_row($result)[0];
-        $latepercentage1 = round(($latecount1 / $trcount) * 100,2);
-
-        // 2 min
-        $versp = -120; // ab wann ist es eine Verspätung
-        // Count Qurey for late trains
-        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
-            ' AND diff_ankunft < '.$versp . ' AND faellt_aus_tf IS FALSE';
-        $result = pg_query($dbconn,$query);
-        $latecount2 = pg_fetch_row($result)[0];
-        $latepercentage2 = round(($latecount2 / $trcount) * 100,2);
-
-        // 3 min
-        $versp = -180; // ab wann ist es eine Verspätung
-        // Count Qurey for late trains
-        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
-            ' AND diff_ankunft < '.$versp . ' AND faellt_aus_tf IS FALSE';
-        $result = pg_query($dbconn,$query);
-        $latecount3 = pg_fetch_row($result)[0];
-        $latepercentage3 = round(($latecount3 / $trcount) * 100,2);
-
-        // 4 min
-        $versp = -240; // ab wann ist es eine Verspätung
-        // Count Qurey for late trains
-        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
-            ' AND diff_ankunft < '.$versp . ' AND faellt_aus_tf IS FALSE';
-        $result = pg_query($dbconn,$query);
-        $latecount4 = pg_fetch_row($result)[0];
-        $latepercentage4 = round(($latecount4 / $trcount) * 100,2);
+        $entry = [];
+        for($i = 1; $i < 5; $i++){
+            $versp = -60 * $i;
+            $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
+                ' AND diff_ankunft < '.$versp . ' AND faellt_aus_tf IS FALSE';
+            $result = pg_query($dbconn,$query);
+            $latecount = pg_fetch_row($result)[0];
+            $latecountpercentage = round(($latecount / $trcount) * 100,2);
+            $entry['latecount'.$i] = intval($latecount);
+            $entry['late'.$i] = $latecountpercentage;
+        }
 
         $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
             ' AND faellt_aus_tf IS TRUE';
@@ -67,22 +42,14 @@ while($row = pg_fetch_row($result_ts)){
         $geopos = explode(',',str_replace('}','',str_replace('{','',$row[2])));
 
 
-        $newjson[] = [
-            'type'=>'Feature',
-            'name'=>$row[1],
-            'geometry'=>["type"=>"Point","coordinates"=>[floatval($geopos[1]),floatval($geopos[0])]],
-            'count'=>intval($trcount),
-            'latecount1'=>intval($latecount1),
-            'latecount2'=>intval($latecount2),
-            'latecount3'=>intval($latecount3),
-            'latecount4'=>intval($latecount4),
-            'late1'=>$latepercentage1,
-            'late2'=>$latepercentage2,
-            'late3'=>$latepercentage3,
-            'late4'=>$latepercentage4,
-            'outcount'=>intval($outcount),
-            'out'=>$outpercentage
-        ];
+        $entry['type'] = 'Feature';
+        $entry['name'] = $row[1];
+        $entry['geometry'] = ["type"=>"Point","coordinates"=>[floatval($geopos[1]),floatval($geopos[0])]];
+        $entry['count'] = intval($trcount);
+        $entry['outcount'] = intval($outcount);
+        $entry['out'] = $outpercentage;
+
+        $newjson[] = $entry;
     }
 
     echo 100 * ($itrcount / $entriescount) .' %';

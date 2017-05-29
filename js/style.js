@@ -9,14 +9,14 @@ function resize() {
 }
 
 
-/* Set the width of the side navigation to 250px */
+/* set position so you could see the sidebar*/
 function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
+    $('#mySidenav').css('right','0');
 }
 
-/* Set the width of the side navigation to 0 */
+/* Set position so the sidebar is hidden again */
 function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
+    $('#mySidenav').css('right','-250px');
 }
 
 /* Title Transition */
