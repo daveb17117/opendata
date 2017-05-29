@@ -3,94 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>SBB Verspätungen</title>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
+    <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+          integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+          crossorigin=""/>
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet'/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="css/application.css"/>
 </head>
 <body>
-<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js" charset="utf-8"></script>
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
-<script type="text/javascript">
-    L.MarkerClusterGroup.include({
-        refreshClusters: function (layers) {
-            if (!layers) {
-                layers = this._topClusterLevel.getAllChildMarkers();
-            } else if (layers instanceof L.MarkerClusterGroup) {
-                layers = layers._topClusterLevel.getAllChildMarkers();
-            } else if (layers instanceof L.LayerGroup) {
-                layers = layers._layers;
-            } else if (layers instanceof L.MarkerCluster) {
-                layers = layers.getAllChildMarkers();
-            } else if (layers instanceof L.Marker) {
-                layers = [layers];
-            } // else: must be an Array(L.Marker)|Map(L.Marker)
-            this._flagParentsIconsNeedUpdate(layers);
-            this._refreshClustersIcons();
+<!--<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js" charset="utf-8"></script>-->
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+        integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+        crossorigin=""></script>
+<script src='https://unpkg.com/leaflet.markercluster@1.0.5/dist//leaflet.markercluster.js'></script>
 
-            // In case of singleMarkerMode, also re-draw the markers.
-            if (this.options.singleMarkerMode) {
-                this._refreshSingleMarkerModeMarkers(layers);
-            }
-
-            return this;
-        },
-
-        _flagParentsIconsNeedUpdate: function (layers) {
-            var id, parent;
-
-            // Assumes layers is an Array or an Object whose prototype is non-enumerable.
-            for (id in layers) {
-                // Flag parent clusters' icon as "dirty", all the way up.
-                // Dumb process that flags multiple times upper parents, but still
-                // much more efficient than trying to be smart and make short lists,
-                // at least in the case of a hierarchy following a power law:
-                // http://jsperf.com/flag-nodes-in-power-hierarchy/2
-                parent = layers[id].__parent;
-                while (parent) {
-                    parent._iconNeedsUpdate = true;
-                    parent = parent.__parent;
-                }
-            }
-        },
-
-        _refreshSingleMarkerModeMarkers: function (layers) {
-            var id, layer;
-
-            for (id in layers) {
-                layer = layers[id];
-
-                // Make sure we do not override markers that do not belong to THIS group.
-                if (this.hasLayer(layer)) {
-                    // Need to re-create the icon first, then re-draw the marker.
-                    layer.setIcon(this._overrideMarkerIcon(layer));
-                }
-            }
-        }
-    });
-
-    L.Marker.include({
-
-        refreshIconOptions: function (options, directlyRefreshClusters) {
-            var icon = this.options.icon;
-
-            L.setOptions(icon, options);
-
-            this.setIcon(icon);
-
-            // Shortcut to refresh the associated MCG clusters right away.
-            // To be used when refreshing a single marker.
-            // Otherwise, better use MCG.refreshClusters() once at the end with
-            // the list of modified markers.
-            if (directlyRefreshClusters && this.__parent) {
-                this.__parent._group.refreshClusters(this);
-            }
-
-            return this;
-        }
-    })
-</script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 

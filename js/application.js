@@ -190,8 +190,7 @@ function bakeThePie(options) {
 }
 
 function redraw() {
-    // TODO: This method gets called correctly when you click on a radio button but it does not redraw the page! Let the page be redrawn.
-    L.markerClusterGroup().refreshClusters();
+    markerclusters.refreshClusters();
     //defineFeature();
     //defineClusterIcon();
 }
