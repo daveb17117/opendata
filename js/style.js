@@ -23,7 +23,6 @@ function closeNav() {
 }
 
 
-
 /* Title Transition */
 $('#title').css('opacity','1');
 $('#closetitle').on('click',function () {

@@ -28,7 +28,7 @@
     <div id="mySidenav" class="sidenav">
         <div class="sidenavTextarea">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <form>
+            <form id="searchform">
                 <div id="sidenavTitle">
                     <span class="fa fa-filter"></span> Filter
                 </div>
@@ -56,6 +56,22 @@
                     <label class="radio" for="radio4min">
                         <input type="radio" name="inlineRadioOptions" id="radio4min" value="option4" onclick="redraw()">
                         4 min
+                    </label>
+                </div>
+               <br>
+                In welchem Jahr?
+                <div id="year" class="form-group" style="padding-top: 0.4em; padding-left: 2.2em;">
+                    <label class="radio">
+                        <input type="radio" id="radioyearall" name="year" value="all" checked onclick="redraw()">
+                        Alle
+                    </label>
+                </div>
+                <br>
+                In welchem Monat?
+                <div id="month" class="form-group" style="padding-top: 0.4em; padding-left: 2.2em;">
+                    <label class="radio">
+                        <input type="radio" id="radiomonthall" name="month" value="all" checked onclick="redraw()">
+                        Alle
                     </label>
                 </div>
             </form>

@@ -86,8 +86,8 @@ while ($row = pg_fetch_row($result_ts)) {
                         $result = pg_query($dbconn, $query);
                         $latecount = pg_fetch_row($result)[0];
                         $latecountpercentage = round(($latecount / $trcount) * 100, 2);
-                        $entry['latecount' . $i][$year.'-'.$month] = intval($latecount);
-                        $entry['late' . $i][$year.'-'.$month] = $latecountpercentage;
+                        $entry['latecount' . $i][$year][$month] = intval($latecount);
+                        $entry['late' . $i][$year][$month] = $latecountpercentage;
                     }
 
                     $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
@@ -97,9 +97,9 @@ while ($row = pg_fetch_row($result_ts)) {
                     $outpercentage = round(($outcount / $trcount) * 100, 2);
 
 
-                    $entry['count'][$year.'-'.$month] = intval($count);
-                    $entry['outcount'][$year.'-'.$month] = intval($outcount);
-                    $entry['out'][$year.'-'.$month] = $outpercentage;
+                    $entry['count'][$year][$month] = intval($count);
+                    $entry['outcount'][$year][$month] = intval($outcount);
+                    $entry['out'][$year][$month] = $outpercentage;
                 }
             }
         }
