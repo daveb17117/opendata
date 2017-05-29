@@ -266,3 +266,18 @@ body {
     display:inline-block;
     transform: rotate(180deg);
 }
+
+/*Popup*/
+.map-popup span.heading {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.map-popup span.attribute {
+    display: block;
+}
+
+.map-popup span.label {
+    font-weight: bold;
+}

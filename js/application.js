@@ -20,8 +20,9 @@ map.addLayer(markerclusters);
 // Gets all Trainstations
 $.getJSON('tnew.json', function (geojson) {
     json = geojson;
-    markers = L.geoJson(geojson, {
-        pointToLayer: defineFeature
+    var markers = L.geoJson(geojson, {
+        pointToLayer: defineFeature,
+        onEachFeature: defineFeaturePopup
     });
     markerclusters.addLayer(markers);
     map.fitBounds(markers.getBounds());
@@ -191,6 +192,28 @@ function bakeThePie(options) {
         .text(pieLabel);
     //Return the svg-markup rather than the actual element
     return serializeXmlNode(svg);
+}
+
+function defineFeaturePopup(feature, layer) {
+    var popupContent = '';
+
+    var maxMin = 0;
+    if ($("#radio1min").is(":checked"))
+        maxMin = 1;
+    if ($("#radio2min").is(":checked"))
+        maxMin = 2;
+    if ($("#radio3min").is(":checked"))
+        maxMin = 3;
+    if ($("#radio4min").is(":checked"))
+        maxMin = 4;
+
+    popupContent += '<span class="heading">' + feature["name"] + '</span>';
+    popupContent += '<span class="attribute"><b>Pünktlich:  </b>'+ (100 - feature["late" + maxMin] - feature["out"]).toFixed(2) +'% / ' + (feature["count"] - feature["latecount" + maxMin] - feature["outcount"]) + '</span>';
+    popupContent += '<span class="attribute"><b>Verspätet:  </b>'+ feature["late" + maxMin].toFixed(2) +'% / ' + feature["latecount" + maxMin] + '</span>';
+    popupContent += '<span class="attribute"><b>Ausgefallen:  </b>'+ feature["out"].toFixed(2) +'% / ' + feature["outcount"] + '</span>';
+
+    popupContent = '<div class="map-popup">' + popupContent + '</div>';
+    layer.bindPopup(popupContent, {offset: L.point(0, 0)});
 }
 
 function redraw() {
