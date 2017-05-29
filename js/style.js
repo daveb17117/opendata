@@ -12,11 +12,12 @@ function resize() {
 /* set position so you could see the sidebar*/
 function openNav() {
     $('#mySidenav').css('right','0');
+    $('#search_input').focus();
 }
 
 /* Set position so the sidebar is hidden again */
 function closeNav() {
-    $('#mySidenav').css('right','-250px');
+    $('#mySidenav').css('right','-400px');
 }
 
 /* Title Transition */

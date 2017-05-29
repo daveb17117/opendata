@@ -14,7 +14,7 @@ body {
 
 #legend {
     position: absolute;
-    top: 5em;
+    bottom: 2em;
     left: 1em; /* Same as #opennav, looks nicer */
     margin: 10px;
     padding: 5px;
@@ -158,11 +158,11 @@ body {
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
-    width: 250px; /* 0 width - change this with JavaScript */
+    width: 400px; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 2000; /* Stay on top */
     top: 0;
-    right: -250px;
+    right: -400px;
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
@@ -185,7 +185,6 @@ body {
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
     color: #818181;
     display: block;
     transition: 0.3s
@@ -212,7 +211,6 @@ body {
 }
 
 #opennav {
-    z-index: 1;
     position: absolute;
     top: 1em;
     right: 1em;

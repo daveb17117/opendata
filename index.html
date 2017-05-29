@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
           integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
           crossorigin=""/>
-    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet'/>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
+          rel='stylesheet'/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="css/application.css"/>
@@ -20,6 +21,7 @@
 <script src='https://unpkg.com/leaflet.markercluster@1.0.5/dist//leaflet.markercluster.js'></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="js/bootstrap3-typeahed.js"></script>
 
 
 <div class="container-fluid" id="mainContainer">
@@ -30,34 +32,53 @@
                 <div id="sidenavTitle">
                     <span class="fa fa-filter"></span> Filter
                 </div>
+                <div class="input-group" style="margin-right: 0.5em">
+                    <input id="search_input" type="text" class="form-control typeahead" placeholder="Nach Bahnhof Suchen" autocomplete="off">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"><span class="fa fa-search"></span></button>
+                    </span>
+                </div>
+                <br><br>
                 Ab wie vielen Minuten gilt ein Zug als verspätet?
                 <div class="form-group" style="padding-top: 0.4em; padding-left: 2.2em;">
                     <label class="radio" for="radio1min">
-                        <input type="radio" name="inlineRadioOptions" id="radio1min" value="option1" onclick="redraw()"> 1 min
+                        <input type="radio" name="inlineRadioOptions" id="radio1min" value="option1" onclick="redraw()">
+                        1 min
                     </label>
                     <label class="radio" for="radio2min">
-                        <input type="radio" name="inlineRadioOptions" id="radio2min" value="option2" onclick="redraw()"> 2 min
+                        <input type="radio" name="inlineRadioOptions" id="radio2min" value="option2" onclick="redraw()">
+                        2 min
                     </label>
                     <label class="radio" for="radio3min">
-                        <input type="radio" name="inlineRadioOptions" id="radio3min" value="option3" checked="checked" onclick="redraw()"> 3 min (SBB Standard)
+                        <input type="radio" name="inlineRadioOptions" id="radio3min" value="option3" checked="checked"
+                               onclick="redraw()"> 3 min (SBB Standard)
                     </label>
                     <label class="radio" for="radio4min">
-                        <input type="radio" name="inlineRadioOptions" id="radio4min" value="option4" onclick="redraw()"> 4 min
+                        <input type="radio" name="inlineRadioOptions" id="radio4min" value="option4" onclick="redraw()">
+                        4 min
                     </label>
                 </div>
             </form>
         </div>
     </div>
-    <button id="opennav" class="btn btn-default" style="z-index: 3;" onclick="openNav()"><span class="fa fa-filter"></span> Filter</button>
+    <button id="opennav" class="btn btn-default" style="z-index: 3;" onclick="openNav()"><span
+            class="fa fa-filter"></span> Filter
+    </button>
+
+
     <div id="title">
         <div id="titlediv">
             <span style="font-size: 1.5em">SBB Transportdaten</span>
             <span id="closetitle">&times;</span>
             <p>
-                Diese App zeigt Daten der SBB. Die Daten wurden vom <a target="_blank" href="https://data.sbb.ch/pages/einstieg/">SBB-Datenportal</a> heruntergeladen und
+                Diese App zeigt Daten der SBB. Die Daten wurden vom <a target="_blank"
+                                                                       href="https://data.sbb.ch/pages/einstieg/">SBB-Datenportal</a>
+                heruntergeladen und
                 danach weiterverarbeitet. Oben rechts gibt es eine Filter Option.
                 <br>
-                Weitere Informationen finden Sie auf unserem <a target="_blank" href="https://github.com/daveb17117/opendata"><span class="fa fa-github"></span> Gihub Repository</a>.
+                Weitere Informationen finden Sie auf unserem <a target="_blank"
+                                                                href="https://github.com/daveb17117/opendata"><span
+                    class="fa fa-github"></span> Gihub Repository</a>.
             </p>
         </div>
     </div>
@@ -83,5 +104,6 @@
 <script src="js/style.js"></script>
 <script src="js/api.js"></script>
 <script src="js/application.js"></script>
+<script src="js/search.js"></script>
 </body>
 </html>
