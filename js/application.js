@@ -139,8 +139,8 @@ function defineFeature(feature, latlng) {
         }
 
         latecount = 0;
-        if (yyyy in feature["late" + maxMin] && mm in feature["late" + maxMin][yyyy]) {
-            latecount += feature["late" + maxMin][yyyy][mm];
+        if (yyyy in feature["latecount" + maxMin] && mm in feature["latecount" + maxMin][yyyy]) {
+            latecount += feature["latecount" + maxMin][yyyy][mm];
         }
 
         outcount = 0;
@@ -409,8 +409,8 @@ function defineFeaturePopup(feature, layer) {
         }
 
         latecount = 0;
-        if (yyyy in feature["late" + maxMin] && mm in feature["late" + maxMin][yyyy]) {
-            latecount += feature["late" + maxMin][yyyy][mm];
+        if (yyyy in feature["latecount" + maxMin] && mm in feature["latecount" + maxMin][yyyy]) {
+            latecount += feature["latecount" + maxMin][yyyy][mm];
         }
 
         outcount = 0;
