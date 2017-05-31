@@ -45,7 +45,7 @@ $.getJSON('data/time.json', function (data) {
         $('#month').append(
             '<label class="radio">' +
             '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
-            month + '</label>'
+            getMonthNameFromMM(month) + '</label>'
         );
     });
 
@@ -499,7 +499,7 @@ function update() {
                 $('#month').append(
                     '<label class="radio">' +
                     '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
-                    month + '</label>'
+                    getMonthNameFromMM(month) + '</label>'
                 );
             });
             // Select Month if exist
@@ -525,7 +525,7 @@ function update() {
             $('#month').append(
                 '<label class="radio">' +
                 '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
-                month + '</label>'
+                getMonthNameFromMM(month) + '</label>'
             );
         });
         // Check Accordingly Mabye wont work
@@ -634,7 +634,6 @@ function makeBarChart(dataset, data) {
             maxHeight = +dataset.percentValues[i];
         }
     }
-    console.log(maxHeight);
     // append the rectangles for the bar chart
     vis.selectAll(".bar")
         .data(data)
@@ -655,4 +654,35 @@ function makeBarChart(dataset, data) {
         .attr("height", maxHeight + 10);
 
     return serializeXmlNode(svg);
+}
+
+function getMonthNameFromMM(month) {
+    switch ("" + month) {
+        case "01":
+            return "Januar";
+        case "02":
+            return "Februar";
+        case "03":
+            return "März";
+        case "04":
+            return "April";
+        case "05":
+            return "Mai";
+        case "06":
+            return "Juni";
+        case "07":
+            return "Juli";
+        case "08":
+            return "August";
+        case "09":
+            return "September";
+        case "10":
+            return "Oktober";
+        case "11":
+            return "November";
+        case "12":
+            return "Dezember";
+        default:
+            return month;
+    }
 }
