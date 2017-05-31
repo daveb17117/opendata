@@ -169,6 +169,10 @@ body {
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
+.radio-inline {
+    padding-left: 0;
+}
+
 .sidenavTextarea {
     padding: 8px 8px 8px 32px;
     color: #c8c8c8;

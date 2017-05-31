@@ -41,12 +41,25 @@ $.getJSON('data/time.json', function (data) {
     });
 
     months.sort();
+    var i = 0;
+    var monthForm = $('#month');
     months.forEach(function (month) {
-        $('#month').append(
-            '<label class="radio">' +
-            '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
-            getMonthNameFromMM(month) + '</label>'
-        );
+        if (i == 0) {
+            monthForm.append(
+                '<label class="radio-inline">' +
+                '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
+                getMonthNameFromMM(month) + '</label>'
+            );
+        }
+        if (i == 1) {
+            monthForm.append(
+                '<label class="radio-inline" style="position: absolute; left: 12em">' +
+                '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
+                getMonthNameFromMM(month) + '</label>'
+            );
+            monthForm.append('<br>');
+        }
+        i = (i + 1) % 2;
     });
 
     timejson = data;
@@ -495,12 +508,25 @@ function update() {
         if ($('#radio' + year).is(':checked')) {
             // Get Months of Year
             monthsOfYear = timejson[year];
+            var i = 0;
+            var monthForm = $('#month');
             monthsOfYear.forEach(function (month) {
-                $('#month').append(
-                    '<label class="radio">' +
-                    '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
-                    getMonthNameFromMM(month) + '</label>'
-                );
+                if (i == 0) {
+                    monthForm.append(
+                        '<label class="radio-inline">' +
+                        '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
+                        getMonthNameFromMM(month) + '</label>'
+                    );
+                }
+                if (i == 1) {
+                    monthForm.append(
+                        '<label class="radio-inline" style="position: absolute; left: 12em">' +
+                        '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
+                        getMonthNameFromMM(month) + '</label>'
+                    );
+                    monthForm.append('<br>');
+                }
+                i = (i + 1) % 2;
             });
             // Select Month if exist
             if ($('#radio' + checked).length) {
@@ -521,12 +547,25 @@ function update() {
             months = months.concat(value);
         });
         months.sort();
+        var i = 0;
+        var monthForm = $('#month');
         months.forEach(function (month) {
-            $('#month').append(
-                '<label class="radio">' +
-                '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
-                getMonthNameFromMM(month) + '</label>'
-            );
+            if (i == 0) {
+                monthForm.append(
+                    '<label class="radio-inline">' +
+                    '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
+                    getMonthNameFromMM(month) + '</label>'
+                );
+            }
+            if (i == 1) {
+                monthForm.append(
+                    '<label class="radio-inline" style="position: absolute; left: 12em">' +
+                    '<input type="radio" name="month" id="radio' + month + '" value="' + month + '" onclick="redraw()"> ' +
+                    getMonthNameFromMM(month) + '</label>'
+                );
+                monthForm.append('<br>');
+            }
+            i = (i + 1) % 2;
         });
         // Check Accordingly Mabye wont work
         if (checked === 'all') $('#radiomonthall').prop('checked', true);
