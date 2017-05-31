@@ -305,3 +305,7 @@ body {
 .x.axis path {
     display: none;
 }
+
+domain{
+    width: 2px;
+}

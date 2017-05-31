@@ -673,8 +673,18 @@ function makeBarChart(dataset, data) {
 
     var y = d3.scale.linear().range([height, 0]);
 
-    x.domain(data.map(function(d) { return d.date; }));
-    y.domain([0, d3.max(dataset, function(d) { return d.value; })])
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left')
+        .ticks(4)
+        .tickFormat(function(d){
+            return (d * 100).toFixed(0) + '%';
+        });
+
+    vis.append('g').attr('class','y axis').call(yAxis).attr('transform','translate(35,10)');
+
+    x.domain(data.map(function(d) { return d.domain; }));
+    y.domain([0, d3.max(dataset, function(d) { return d.value; })]);
 
     var maxHeight = 0;
     for (i = 0; i < 3; i++) {
@@ -690,16 +700,17 @@ function makeBarChart(dataset, data) {
             return d.barClass;
         })
         .attr("x", function(d) {
-            return 1 + 50 * d.id; })
+            return 40 + 50 * d.id; })
         .attr("width", 45)
         .attr("y", function(d) {
-            return (maxHeight + 10 - d.percVal); })
+            return (110 - d.percVal); })
         .attr("height", function(d) {
             return ((d.percVal)); });
 
 
-    vis.attr("width", 150)
-        .attr("height", maxHeight + 10);
+    vis.attr("width", 190)
+        .attr("height", 120);
+
 
     return serializeXmlNode(svg);
 }
