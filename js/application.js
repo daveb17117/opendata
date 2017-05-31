@@ -446,7 +446,7 @@ function defineFeaturePopup(feature, layer) {
     lateper = (100 * (latecount / count)).toFixed(2);
     outper = (100 * (outcount / count)).toFixed(2);
 
-
+    var link = "https://data.sbb.ch/explore/dataset/ist-daten-history/table/?sort=-betriebstag&q=" + feature["name"];
     popupContent += '<span class="heading">' + feature["name"] + '</span>';
     popupContent += '<span class="attribute"><b>Pünktlich:  </b>' + restper + '% / ' + restcount + '</span>';
     popupContent += '<span class="attribute"><b>Verspätet:  </b>' + lateper + '% / ' + latecount + '</span>';
@@ -470,6 +470,8 @@ function defineFeaturePopup(feature, layer) {
                     "barClass" : "category-1"}];
 
     popupContent += makeBarChart(popUpData, data);
+
+    popupContent += '<span class="heading"><a target="_blank" href="https://data.sbb.ch/explore/dataset/ist-daten-history/table/?sort=-betriebstag&q=' + feature["name"] + '">Link zu SBB Daten</a></span>';
 
     popupContent = '<div class="map-popup">' + popupContent + '</div>';
     layer.bindPopup(popupContent, {offset: L.point(0, 0)});
