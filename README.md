@@ -90,10 +90,10 @@ $ ./insert.sh <json-file> insert.sql
 - Fourth Wait!: This will take a lot of time because the json file is very big, so you have to be patient
 - Fifth run the json generation script (not yet ready)
 
-#Contributers
+# Contributers
 This application was developped by daveb17117 and dombriner as part of the 'Open Data' course at the University of 
 Bern.  
 
-#License
+# License
 This application is under the [GNU General Public License Version 3](LICENSE.md).
 
