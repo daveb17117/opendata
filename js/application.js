@@ -439,6 +439,25 @@ function defineFeaturePopup(feature, layer) {
     popupContent += '<span class="attribute"><b>Verspätet:  </b>' + lateper + '% / ' + latecount + '</span>';
     popupContent += '<span class="attribute"><b>Ausgefallen:  </b>' + outper + '% / ' + outcount + '</span>';
 
+    var domains = ["Pünktlich", "Verspätet", "Ausgefallen"];
+    var values = [restper, lateper, outper];
+    var popUpData = {domains: domains, percentValues: values};
+
+    var data = [{"id" : "0",
+                    "domain" : "Pünktlich",
+                    "percVal" : restper,
+                    "barClass" : "category-4"},
+                {"id" : "1",
+                    "domain" : "Verspätet",
+                    "percVal" : lateper,
+                    "barClass" : "category-2"},
+                {"id" : "2",
+                    "domain" : "Ausgefallen",
+                    "percVal" : outper,
+                    "barClass" : "category-1"}];
+
+    popupContent += makeBarChart(popUpData, data);
+
     popupContent = '<div class="map-popup">' + popupContent + '</div>';
     layer.bindPopup(popupContent, {offset: L.point(0, 0)});
 }
@@ -594,3 +613,46 @@ $search.change(function () {
 $('#searchButton').click(function () {
    $search.change();
 });
+
+function makeBarChart(dataset, data) {
+    var svg = document.createElementNS(d3.ns.prefix.svg, 'svg');
+
+    var vis = d3.select(svg);
+    var width = 150;
+    var height = 100;
+
+    var x = d3.scale.ordinal().rangeRoundBands([0, width], 5);
+
+    var y = d3.scale.linear().range([height, 0]);
+
+    x.domain(data.map(function(d) { return d.date; }));
+    y.domain([0, d3.max(dataset, function(d) { return d.value; })])
+
+    var maxHeight = 0;
+    for (i = 0; i < 3; i++) {
+        if (+dataset.percentValues[i] > maxHeight) {
+            maxHeight = +dataset.percentValues[i];
+        }
+    }
+    console.log(maxHeight);
+    // append the rectangles for the bar chart
+    vis.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", function (d) {
+            return d.barClass;
+        })
+        .attr("x", function(d) {
+            return 1 + 50 * d.id; })
+        .attr("width", 45)
+        .attr("y", function(d) {
+            return (maxHeight + 10 - d.percVal); })
+        .attr("height", function(d) {
+            return ((d.percVal)); });
+
+
+    vis.attr("width", 150)
+        .attr("height", maxHeight + 10);
+
+    return serializeXmlNode(svg);
+}
