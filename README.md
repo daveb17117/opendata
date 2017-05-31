@@ -6,7 +6,7 @@ OpenData Project to Visualize SBB Data about Train Punctuality
 # Using the Application
 ### Markers
 The Application shows marker icons on a Swiss Map.  
-![Failed to load image.](/ressources/markerCluster "Multiple markers forming one marker cluster.")  
+<img src="/ressources/markerCluster.png" width="400">
 A marker represent a number of train stations in a certain region. You can see the region by moving your mouse on the 
 marker. The number in the middle tells you how many train stations are in that region.   
 The circle of the marker shows you information about how many trains arriving at these train stations are on time, late 
@@ -15,7 +15,7 @@ get the exact number and percentage of punctual, late and cancelled trains, simp
 colored part of the circle and wait for the mouseover (tooltip) to appear.   
 If you click on a marker, the map will zoom in on the corresponding region and the markers will be redistributed 
 dynamically.  
-![Failed to load image.](/ressources/popUp.png "The pop-up.")
+<img src="/ressources/popUp.png" width="400">  
 If you click on a marker representing only one train station, a pop-up will appear containing the name of 
 the station and the absolute and relative number of punctual, late and cancelled trains. Also included in the pop-up is 
 a bar chart and a link to the data of the corresponding train station on 
@@ -23,6 +23,7 @@ a bar chart and a link to the data of the corresponding train station on
  
 ### Filter Options
 Click on 'Filter' in order for the filter options to appear.  
+<img src="/ressources/filter.png" width="600">  
 ![Failed to load image.](/ressources/filter.png "Filter")
 #### Search a specific Train Station
 Want to know how many trains arrive late at your train station? Simply search the name of your train station in the 
