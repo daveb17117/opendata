@@ -8,7 +8,7 @@ var geojson,
         iconCreateFunction: defineClusterIcon //this is where the magic happens
     }),
     map = L.map('map').setView([46.6, 8.1], 8),
-    markers, json, years = [], months = [], maxMin, yyyy = 'all', mm = 'all', timejson;
+    markers, json, years = [], months = [], maxMin, yyyy = 'all', mm = 'all', timejson, typ = 'diff_ankunft';
 
 //Add basemap
 L.tileLayer(tileServer, {attribution: tileAttribution + copyLeft, maxZoom: 15}).addTo(map);
@@ -54,6 +54,12 @@ $.getJSON('data/time.json', function (data) {
 
 /* So you only got to get them once they change */
 function setParams() {
+    // Get Ankfunft oder Abfahrt
+    if($('#radioAbfahrt').is(':checked')){
+        typ = 'diff_abfahrt';
+    }else if($('#radioAnkunft').is(':checked')){
+        typ = 'diff_ankunft';
+    }
     // Get Minutes
     maxMin = 2;
     if (document.getElementById('radio1min').checked)
@@ -97,21 +103,24 @@ function defineFeature(feature, latlng) {
 
     if (yyyy === 'all' && mm === 'all') {
         count = feature["count"]['all'];
-        latecount = feature["latecount" + maxMin]['all'];
+        latecount = feature[typ]["latecount" + maxMin]['all'];
         outcount = feature.outcount.all;
     } else if (mm === 'all') {
+        console.log('year');
         count = 0;
         if (yyyy in feature['count']) {
             $.each(feature['count'][yyyy], function (key, value) {
                 count += value;
             });
         }
+        console.log(count);
         latecount = 0;
-        if (yyyy in feature['latecount' + maxMin]) {
-            $.each(feature['latecount' + maxMin][yyyy], function (key, value) {
+        if (yyyy in feature[typ]['latecount' + maxMin]) {
+            $.each(feature[typ]['latecount' + maxMin][yyyy], function (key, value) {
                 latecount += value
             });
         }
+        console.log(latecount);
         outcount = 0;
         if (yyyy in feature['outcount']) {
             $.each(feature['outcount'][yyyy], function (key, value) {
@@ -125,7 +134,7 @@ function defineFeature(feature, latlng) {
             if (key !== 'all' && mm in value) count += value[mm];
         });
         latecount = 0;
-        $.each(feature['latecount' + maxMin], function (key, value) {
+        $.each(feature[typ]['latecount' + maxMin], function (key, value) {
             if (key !== 'all' && mm in value) latecount += value[mm];
         });
         outcount = 0;
@@ -139,8 +148,8 @@ function defineFeature(feature, latlng) {
         }
 
         latecount = 0;
-        if (yyyy in feature["latecount" + maxMin] && mm in feature["latecount" + maxMin][yyyy]) {
-            latecount += feature["latecount" + maxMin][yyyy][mm];
+        if (yyyy in feature[typ]["latecount" + maxMin] && mm in feature[typ]["latecount" + maxMin][yyyy]) {
+            latecount += feature[typ]["latecount" + maxMin][yyyy][mm];
         }
 
         outcount = 0;
@@ -203,7 +212,7 @@ function defineClusterIcon(cluster) {
     if (yyyy === 'all' && mm === 'all') {
         children.forEach(function (child) {
             total += child.feature.count.all;
-            late += child.feature["latecount" + maxMin]['all'];
+            late += child.feature[typ]["latecount" + maxMin]['all'];
             out += child.feature.outcount.all;
         });
     } else if (mm === 'all') {
@@ -213,8 +222,8 @@ function defineClusterIcon(cluster) {
                     total += value;
                 });
             }
-            if (yyyy in child.feature["latecount" + maxMin]) {
-                $.each(child.feature["latecount" + maxMin][yyyy], function (key, value) {
+            if (yyyy in child.feature[typ]["latecount" + maxMin]) {
+                $.each(child.feature[typ]["latecount" + maxMin][yyyy], function (key, value) {
                     late += value;
                 });
             }
@@ -229,7 +238,7 @@ function defineClusterIcon(cluster) {
             $.each(child.feature.count, function (key, value) {
                 if (key !== 'all' && mm in value) total += value[mm];
             });
-            $.each(child.feature["latecount" + maxMin], function (key, value) {
+            $.each(child.feature[typ]["latecount" + maxMin], function (key, value) {
                 if (key !== 'all' && mm in value) late += value[mm];
             });
             $.each(child.feature.outcount, function (key, value) {
@@ -241,8 +250,8 @@ function defineClusterIcon(cluster) {
             if (yyyy in child.feature['count'] && mm in child.feature['count'][yyyy]) {
                 total += child.feature['count'][yyyy][mm];
             }
-            if (yyyy in child.feature["latecount" + maxMin] && mm in child.feature["latecount" + maxMin][yyyy]) {
-                late += child.feature["latecount" + maxMin][yyyy][mm];
+            if (yyyy in child.feature[typ]["latecount" + maxMin] && mm in child.feature[typ]["latecount" + maxMin][yyyy]) {
+                late += child.feature[typ]["latecount" + maxMin][yyyy][mm];
             }
             if (yyyy in child.feature['outcount'] && mm in child.feature['outcount'][yyyy]) {
                 out += child.feature['outcount'][yyyy][mm];
@@ -299,7 +308,7 @@ function bakeThePie(options) {
     if (!options.data || !options.valueFunc) {
         return '';
     }
-    var data = options.data,
+    var data = options.data.filter(function (d) { return d.values.count > 0 }),
         valueFunc = options.valueFunc,
         r = options.outerRadius ? options.outerRadius : 28, //Default outer radius = 28px
         rInner = options.innerRadius ? options.innerRadius : r - 10, //Default inner radius = r-10
@@ -367,7 +376,7 @@ function defineFeaturePopup(feature, layer) {
 
     if (yyyy === 'all' && mm === 'all') {
         count = feature["count"]['all'];
-        latecount = feature["latecount" + maxMin]['all'];
+        latecount = feature[typ]["latecount" + maxMin]['all'];
         outcount = feature.outcount.all;
     } else if (mm === 'all') {
         count = 0;
@@ -377,8 +386,8 @@ function defineFeaturePopup(feature, layer) {
             });
         }
         latecount = 0;
-        if (yyyy in feature['latecount' + maxMin]) {
-            $.each(feature['latecount' + maxMin][yyyy], function (key, value) {
+        if (yyyy in feature[typ]['latecount' + maxMin]) {
+            $.each(feature[typ]['latecount' + maxMin][yyyy], function (key, value) {
                 latecount += value
             });
         }
@@ -395,7 +404,7 @@ function defineFeaturePopup(feature, layer) {
             if (key !== 'all' && mm in value) count += value[mm];
         });
         latecount = 0;
-        $.each(feature['latecount' + maxMin], function (key, value) {
+        $.each(feature[typ]['latecount' + maxMin], function (key, value) {
             if (key !== 'all' && mm in value) latecount += value[mm];
         });
         outcount = 0;
@@ -409,8 +418,8 @@ function defineFeaturePopup(feature, layer) {
         }
 
         latecount = 0;
-        if (yyyy in feature["latecount" + maxMin] && mm in feature["latecount" + maxMin][yyyy]) {
-            latecount += feature["latecount" + maxMin][yyyy][mm];
+        if (yyyy in feature[typ]["latecount" + maxMin] && mm in feature[typ]["latecount" + maxMin][yyyy]) {
+            latecount += feature[typ]["latecount" + maxMin][yyyy][mm];
         }
 
         outcount = 0;
@@ -570,6 +579,7 @@ $search.change(function () {
             markers.eachLayer(function (layer) {
                 if (current.name == layer.feature.name) {
                     map.setView(layer._latlng, 20);
+                    layer.openPopup();
                 }
             });
         } else {
@@ -579,4 +589,8 @@ $search.change(function () {
     } else {
         // Nothing is active so it is a new value (or maybe empty value)
     }
+});
+
+$('#searchButton').click(function () {
+   $search.change();
 });

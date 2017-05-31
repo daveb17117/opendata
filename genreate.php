@@ -27,27 +27,31 @@ $result = pg_query($dbconn, $query);
 $ldate = pg_fetch_row($result)[0];
 
 // Get biggest and lowest Month
-$hmonth = substr($hdate,5,2);
-$lmonth = substr($ldate,5,2);
+$hmonth = substr($hdate, 5, 2);
+$lmonth = substr($ldate, 5, 2);
 
 // Get years and months
 $hyear = substr($hdate, 0, 4);
 $lyear = substr($ldate, 0, 4);
 $years = [];
 
-for($i = $lyear; $i <= $hyear; $i++){
+// Genreate Array with Year and Months to loop over
+for ($i = $lyear; $i <= $hyear; $i++) {
     $months = [];
     $from = 1;
     $to = 12;
-    if($i == $hyear){
-        $from = 1; $to = $hmonth;
-    }elseif($i == $lyear){
-        $from = $lmonth; $to = 12;
-    }else{
-        $from = 1; $to = 12;
+    if ($i == $hyear) {
+        $from = 1;
+        $to = $hmonth;
+    } elseif ($i == $lyear) {
+        $from = $lmonth;
+        $to = 12;
+    } else {
+        $from = 1;
+        $to = 12;
     }
-    for($j = $from; $j <= $to; $j++){
-        $months[] = str_pad($j,2,'0',STR_PAD_LEFT);
+    for ($j = $from; $j <= $to; $j++) {
+        $months[] = str_pad($j, 2, '0', STR_PAD_LEFT);
     }
     $years[$i] = $months;
 }
@@ -70,28 +74,31 @@ while ($row = pg_fetch_row($result_ts)) {
     if ($trcount > 0) {
         $entry = [];
         // Loop over years and months
-        foreach($years as $year => $months){
-            foreach($months as $month){
+        foreach ($years as $year => $months) {
+            foreach ($months as $month) {
                 // Count Query
-                $query = 'SELECT COUNT(*) FROM "ist-daten".history WHERE bpuic = '.$trainstationnumber.
-                    ' AND betriebstag::text LIKE \''.$year.'-'.$month.'-%\'';
-                $result = pg_query($dbconn,$query);
+                $query = 'SELECT COUNT(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
+                    ' AND betriebstag::text LIKE \'' . $year . '-' . $month . '-%\'';
+                $result = pg_query($dbconn, $query);
                 $count = pg_fetch_row($result)[0];
 
-                if($count > 0){
-                    for ($i = 1; $i < 5; $i++) {
-                        $versp = -60 * $i;
-                        $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
-                            ' AND diff_ankunft < ' . $versp . ' AND faellt_aus_tf IS FALSE AND betriebstag::text LIKE \''.$year.'-'.$month.'-%\'';
-                        $result = pg_query($dbconn, $query);
-                        $latecount = pg_fetch_row($result)[0];
-                        $latecountpercentage = round(($latecount / $trcount) * 100, 2);
-                        $entry['latecount' . $i][$year][$month] = intval($latecount);
-                        $entry['late' . $i][$year][$month] = $latecountpercentage;
+                if ($count > 0) {
+                    for ($k = 0; $k < 2; $k++) {
+                        for ($i = 1; $i < 5; $i++) {
+                            $field = $k === 0 ? 'diff_abfahrt' : 'diff_ankunft';
+                            $versp = -60 * $i;
+                            $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
+                                ' AND ' . $field . ' < ' . $versp . ' AND faellt_aus_tf IS FALSE AND betriebstag::text LIKE \'' . $year . '-' . $month . '-%\'';
+                            $result = pg_query($dbconn, $query);
+                            $latecount = pg_fetch_row($result)[0];
+                            $latecountpercentage = round(($latecount / $trcount) * 100, 2);
+                            $entry[$field]['latecount' . $i][$year][$month] = intval($latecount);
+                            $entry[$field]['late' . $i][$year][$month] = $latecountpercentage;
+                        }
                     }
 
                     $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
-                        ' AND faellt_aus_tf IS TRUE AND betriebstag::text LIKE \''.$year.'-'.$month.'-%\'';
+                        ' AND faellt_aus_tf IS TRUE AND betriebstag::text LIKE \'' . $year . '-' . $month . '-%\'';
                     $result = pg_query($dbconn, $query);
                     $outcount = pg_fetch_row($result)[0];
                     $outpercentage = round(($outcount / $trcount) * 100, 2);
@@ -104,16 +111,18 @@ while ($row = pg_fetch_row($result_ts)) {
             }
         }
 
-
-        for ($i = 1; $i < 5; $i++) {
-            $versp = -60 * $i;
-            $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
-                ' AND diff_ankunft < ' . $versp . ' AND faellt_aus_tf IS FALSE';
-            $result = pg_query($dbconn, $query);
-            $latecount = pg_fetch_row($result)[0];
-            $latecountpercentage = round(($latecount / $trcount) * 100, 2);
-            $entry['latecount' . $i]['all'] = intval($latecount);
-            $entry['late' . $i]['all'] = $latecountpercentage;
+        for ($k = 0; $k < 2; $k++) {
+            for ($i = 1; $i < 5; $i++) {
+                $field = $k === 0 ? 'diff_abfahrt' : 'diff_ankunft';
+                $versp = -60 * $i;
+                $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
+                    ' AND ' . $field . ' < ' . $versp . ' AND faellt_aus_tf IS FALSE';
+                $result = pg_query($dbconn, $query);
+                $latecount = pg_fetch_row($result)[0];
+                $latecountpercentage = round(($latecount / $trcount) * 100, 2);
+                $entry[$field]['latecount' . $i]['all'] = intval($latecount);
+                $entry[$field]['late' . $i]['all'] = $latecountpercentage;
+            }
         }
 
         $query = 'SELECT count(*) FROM "ist-daten".history WHERE bpuic = ' . $trainstationnumber .
@@ -146,10 +155,10 @@ file_put_contents(__DIR__ . '/data/data.json', $output);
 
 // Write JSON with years and months for filter
 $output2 = json_encode($years, JSON_UNESCAPED_UNICODE);
-file_put_contents(__DIR__.'/data/time.json', $output2);
+file_put_contents(__DIR__ . '/data/time.json', $output2);
 
 $time_end = microtime_float();
 $time = $time_end - $time_start;
 
-echo 'Completed in '.$time.' seconds';
+echo 'Completed in ' . $time / 60 . ' minutes';
 ?>
