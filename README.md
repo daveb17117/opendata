@@ -1,12 +1,13 @@
 # SBB Verspätungen
 OpenData Project to Visualize SBB Data about Train Punctuality
 
+![image unavailable](/ressources/fullMap.png "SBB Verspätungen")
 
 # Using the Application
 ### Markers
-The Application shows marker icons on a Swiss Map.  
+The Application shows marker icons on a Swiss Map.   
 A marker represent a number of train stations in a certain region. You can see the region by moving your mouse on the 
-marker. The number in the middle tells you how many train stations are in that region.  
+marker. The number in the middle tells you how many train stations are in that region.   
 The circle of the marker shows you information about how many trains arriving at these train stations are on time, late 
 or got cancelled. Green is on time, orange late and red cancelled as you can see in the legend on the bottom left. To 
 get the exact number and percentage of punctual, late and cancelled trains, simply move your mouse on the respectively 
