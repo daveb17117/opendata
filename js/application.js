@@ -8,7 +8,7 @@ var geojson,
         iconCreateFunction: defineClusterIcon //this is where the magic happens
     }),
     map = L.map('map').setView([46.6, 8.1], 8),
-    markers, json, years = [], months = [], maxMin, yyyy = 'all', mm = 'all', timejson, typ = 'diff_ankunft';
+    markers, json, years = [], months = [], maxMin, yyyy = 'all', mm = 'all', timejson, typ = 'diff_ankunft', popup = null;
 
 //Add basemap
 L.tileLayer(tileServer, {attribution: tileAttribution + copyLeft, maxZoom: 15}).addTo(map);
@@ -488,6 +488,14 @@ function updateCluster() {
         filter: filterMarkers
     });
     markerclusters.addLayer(markers);
+    // Open Popup again
+    if(popup !== null){
+        markers.eachLayer(function (layer) {
+           if(layer.feature.name === popup){
+               layer.openPopup();
+           }
+        });
+    }
 }
 
 function update() {
@@ -536,7 +544,6 @@ function update() {
             }
             // DO this after everything else is done
             updateCluster();
-
         }
     });
     // If all is checked
@@ -725,3 +732,11 @@ function getMonthNameFromMM(month) {
             return month;
     }
 }
+
+/* Popup Listener */
+map.on('popupopen', function (e) {
+   popup = e.popup._source.feature.name;
+});
+$('.leaflet-popup-close-button').on('click', function () {
+    popup = null;
+});
