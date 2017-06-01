@@ -1,6 +1,6 @@
 #!/bin/sh
 #dir = $(dirname $0)
-# pgpassword
+# pgpassword replace <password> with your password
 export PGPASSWORD=<password>
 # create directory
 mkdir -p parts/
@@ -17,7 +17,9 @@ for file in "parts/"* ; do
   sed -i '1s/^/[/' "$file"
   # Insert ']' at the end
   sed -i 's/$/]/' "$file"
-  # Insert into database
+  # Insert into database replace <script_dir> with your script directory
   psql -U postgres -h 127.0.0.1 -d sbb -v file=<script_dir>/$file -a -f import.sql
 done
+#delete parts
+rm -rf parts/
 echo "Finished"
