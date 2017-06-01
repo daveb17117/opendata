@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS "ist-daten"."history" (
 $ ./insert.sh <json-file> insert.sql
 ```
 - Fourth Wait!: This will take a lot of time because the json file is very big, so you have to be patient
-- Fifth run the json generation script (not yet ready)
+- Fifth run the json generation script generate.php (You should probably change the database host and the credentials)
 
 # Contributors
 This application was developped by [David Bösiger](https://github.com/daveb17117) and [Dominik Briner](https://github.com/dombriner) as part of the 'Open Data' course at the University of 
