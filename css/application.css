@@ -174,7 +174,7 @@ body {
 }
 
 .sidenavTextarea {
-    padding: 8px 8px 8px 32px;
+    padding: 8px 32px 8px 32px;
     color: #c8c8c8;
     font-size: 1.2em;
     font-style: normal;
@@ -308,4 +308,25 @@ body {
 
 domain{
     width: 2px;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: #f1f1f1;
+    cursor: default;
+    background-color: #000000;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.nav-tabs > li > a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+}
+.nav-tabs > li > a:hover {
+    border-color: #eee #eee #ddd;
+    background-color: black;
 }

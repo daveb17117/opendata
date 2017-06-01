@@ -27,23 +27,33 @@
 
 <div class="container-fluid" id="mainContainer">
     <div id="mySidenav" class="sidenav">
-        <div class="sidenavTextarea">
+        <div id="sideFilter" class="sidenavTextarea">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <form id="searchform">
-                <div id="sidenavTitle">
-                    <span class="fa fa-filter"></span> Filter
-                </div>
-                <div class="input-group" style="margin-right: 0.5em">
-                    <input id="search_input" type="text" class="form-control typeahead" placeholder="Nach Bahnhof Suchen" autocomplete="off">
+                <ul class="nav nav-tabs" style="font-size: 1.3em">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"><span class="fa fa-filter"></span> Filter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="$('#sideFilter').hide();$('#sideInfo').show();"><span class="fa fa-info-circle"></span> Info</a>
+                    </li>
+                </ul>
+                <br>
+                <br>
+                <div class="input-group">
+                    <input id="search_input" type="text" class="form-control typeahead"
+                           placeholder="Nach Bahnhof Suchen" autocomplete="off">
                     <span class="input-group-btn">
-                        <button id="searchButton" type="button" class="btn btn-default"><span class="fa fa-search"></span></button>
+                        <button id="searchButton" type="button" class="btn btn-default"><span
+                                class="fa fa-search"></span></button>
                     </span>
                 </div>
                 <br><br>
                 Art der Verspätung?
                 <div class="form-group" style="padding-top: 0.4em; padding-left: 2.2em;">
                     <label class="radio" for="radio1min">
-                        <input type="radio" name="typ" id="radioAnkunft" value="diff_ankunkft" onclick="redraw()" checked>
+                        <input type="radio" name="typ" id="radioAnkunft" value="diff_ankunkft" onclick="redraw()"
+                               checked>
                         Ankunftsverspätung
                     </label>
                     <label class="radio" for="radio2min">
@@ -71,7 +81,7 @@
                         4 min
                     </label>
                 </div>
-               <br>
+                <br>
                 In welchem Jahr?
                 <div id="year" class="form-group" style="padding-top: 0.4em; padding-left: 2.2em;">
                     <label class="radio">
@@ -88,6 +98,20 @@
                     </label>
                 </div>
             </form>
+        </div>
+        <div id="sideInfo" class="sidenavTextarea" style="display: none">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <ul class="nav nav-tabs" style="font-size: 1.3em">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="$('#sideFilter').show();$('#sideInfo').hide();$('#search_input').focus();"><span class="fa fa-filter"></span> Filter</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><span class="fa fa-info-circle"></span> Info</a>
+                </li>
+            </ul>
+            <br>
+            <br>
+            <!-- Info goes here -->
         </div>
     </div>
     <button id="opennav" class="btn btn-default" style="z-index: 3;" onclick="openNav()"><span
@@ -109,7 +133,8 @@
                                                                 href="https://github.com/daveb17117/opendata"><span
                     class="fa fa-github"></span> Gihub Repository</a>.
                 <br>
-                Lizenz: <a target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html"><span class="copyleft">&copy;</span> GPL v3.0</a>
+                Lizenz: <a target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html"><span
+                    class="copyleft">&copy;</span> GPL v3.0</a>
             </p>
         </div>
     </div>
