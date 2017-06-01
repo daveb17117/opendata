@@ -114,31 +114,6 @@ body {
     border-color: #444;
 }
 
-/*marker icons*/
-.icon-1 {
-    background-image: url('running-16.png');
-    background-repeat: no-repeat;
-    background-position: 0px 1px;
-}
-
-.icon-2 {
-    background-image: url('bicycle-16.png');
-    background-repeat: no-repeat;
-    background-position: 1px 0px;
-}
-
-.icon-3 {
-    background-image: url('motorcycle-16.png');
-    background-repeat: no-repeat;
-    background-position: 1px 0px;
-}
-
-.icon-4 {
-    background-image: url('car-16.png');
-    background-repeat: no-repeat;
-    background-position: 1px 0px;
-}
-
 /*Popup*/
 .map-popup span.heading {
     display: block;
@@ -206,6 +181,18 @@ body {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+}
+
+/* The sidenav main text links */
+.sidenavTextLink a {
+    color: #818181;
+    transition: 0.3s;
+    display: inline;
+    padding: 0;
+}
+
+#infoList ul {
+    padding-left: 2em;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
