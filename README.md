@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS "ist-daten"."history" (
   "record_timestamp"    TIMESTAMP
 );
 ```
-- Third run insert script which is included in this repository; The json file, the script and the sql file should be in the same folder. Make sure to replace <password> and <scirpt_dir> frist
+- Third run insert script which is included in this repository; The json file, the script and the sql file should be in the same folder. Make sure to replace \<password> and <scirpt_dir> frist
 ```
 $ ./insert.sh <json-file> insert.sql
 ```
