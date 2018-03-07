@@ -1,5 +1,5 @@
 var geojson,
-    tileServer = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     copyLeft = ' | <span class="copyleft">&copy;</span> <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPL v3.0</a> license',
     rmax = 30, //Maximum radius for cluster pies
